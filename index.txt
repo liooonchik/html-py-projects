@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="keywords" content="projekty, Python, Java, Gra w życie, ekosystem, symulacje, programowanie, Vladyslav Dovhopiatyi">
+<meta name="description" content="Zobacz moje pierwsze projekty stworzone w Pythonie">
+<meta name="author" content="Vladyslav Dovhopiatyi">
+<title>Python: co to?</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+
+* {box-sizing: border-box; margin: 0; padding: 0;}
+
+@keyframes colorchange {
+0% {background-color: #ffffff;}
+20% {background-color: #ccffcc;}
+40% {background-color: #ffffff;}
+60% {background-color: #ccffff;}
+80% {background-color: #ffffff;}
+100% {background-color: #ccccff;}
+}
+
+body {
+margin-top: 100px;
+animation: colorchange 60s infinite;
+}
+
+header {
+position: fixed;
+top:0; left:0; right:0;
+z-index: 1000;
+background-color: #0040ff;
+padding: 10px;
+display: flex;
+justify-content: space-between;
+max-height: 100px;
+flex-wrap: wrap;
+}
+
+.szukaj-container {	
+max-width: 250px;
+margin: 10px auto
+}
+
+#google_search {
+width: 200%;
+padding: 10px 10px 10px 15px;
+border: 1px solid black;
+border-radius: 25px;
+}
+
+.autocomplete-item {
+background-color: white;
+border: 1px solid #d4d4d4;
+cursor: pointer;
+padding: 10px;
+width: 200%;
+}
+
+.autocomplete-item:hover {
+background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+background-color: #d4d4d4;
+}
+
+.nav1 {
+position: fixed;
+top: 70px;
+width: 20%;
+height: 100%; 
+background-color: rgb(0, 162, 255);
+padding: 20px;
+}
+
+.nav1 a {
+display: block;
+padding: 20px 20px;
+text-decoration: none;
+color: black;
+}
+
+.nav1 a:hover {
+background-color: hsl(280, 100%, 70%)
+}
+
+h1 {
+text-align:center;
+margin-left: 25%;
+width: 75%;
+}
+p {
+text-align:center;
+margin-left: 25%;
+font-size: 120%;
+line-height: 1.6;
+}
+
+.square_container {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+margin-left: 25%;
+width: 75%;
+gap: 20px;
+margin-top: 30px;
+}
+
+.square {
+background-color: #99ccff;
+border-radius: 15px;
+padding: 20px;
+width: 300px;
+box-shadow: 10px 10px 1px #ccccff;
+transition: transform 0.5s;
+display: flex;
+align-items: center;
+min-height: 200px; 
+}
+
+.square:hover {
+transform: scale(1.10);
+}
+
+.square p {
+text-align: center;
+margin: 0;
+}
+
+.button_container {
+text-align: center;
+margin-left: 25%;
+width: 75%;
+}
+
+a.button-link {
+text-align:center;
+border-radius: 25px;
+background-color:#cc66ff;
+color:white;
+padding: 15px 25px;
+text-decoration: none;
+display: inline-block;
+margin: 5px;
+}
+a.button-link:hover {
+background-color: #d32f2f;
+}
+
+@media (max-width: 768px) {
+
+.szukaj-container {
+max-width: 100%;
+width: 250px;
+margin: 10px auto;
+}
+
+#google_search {
+width: 100%;
+padding: 10px 15px;
+border: 1px solid black;
+border-radius: 25px;
+box-sizing: border-box;
+}
+
+.nav1 {
+width: 250px;
+left: -260px;
+transition: left 0.3s ease;
+padding-top: 60px;
+}
+
+.nav1.active {
+left: 0;
+}
+
+#toggleNav {
+position: fixed;
+top: 82px;
+left: 0px;
+z-index: 1100;
+font-size: 20px;
+background: #669999;
+color: white;
+border: 3px solid black;
+padding: 8px 12px;
+cursor: pointer;
+display: block;
+}
+
+#toggleNav.hidden {
+display: none;
+}
+
+header {
+display: flex;
+flex-wrap: wrap; 
+align-items: center;
+justify-content: space-between;
+}
+
+h1, p, .square_container, .button_container {
+margin-left: 0;
+width: 100%;
+padding: 10px;
+}
+}
+
+</style>
+
+</head>
+<body>
+
+<button id="toggleNav" class="hidden" aria-label="Menu">☰</button>
+
+<header>
+
+<a href="omnie.html">
+<img src="favi.jpg" alt="Logo strony" width="50" height="50">
+</a>
+
+<div class="szukaj-container">
+<input id="google_search" type="text" name="search" placeholder="Wyszukiwarka projektów" autocomplete="off" oninput="obsługa_wyszukiwarki()" aria-label="Wyszukiwarka projektów">
+<div id="autocomplete-list" class="autocomplete-items" style="max-width: 250px; margin-top: 5px;"></div>
+</div>
+
+</header>
+
+<nav class="nav1">
+<a href="index.html">Python: co to?</a>
+<a href="gra_w_zycie.html">Gra w życie</a>
+<a href="symulacja_ekosystemy.html">Symulacja ekosystemy</a>
+<a href="omnie.html">O mnie</a>
+
+</nav>
+
+<main>
+
+<script src="wyszukiwarka_script.js"></script>
+
+<h1>&#128013;Python&#128013;</h1>
+
+<div class="square_container">
+
+<div class="square">
+<p>Python to jeden z najpopularniejszych języków programowania na świecie. Dokładną liczbę osób piszących w Pythonie trudno określić, ale jest to bardzo popularny język, używany przez wielu programistów. Według niektórych ankiet Python zajmuje pierwsze lub drugie miejsce pod względem popularności wśród języków programowania.
+</p>
+</div>
+
+<div class="square">
+<p>Bardzo często wybierany jest jako pierwszy język do nauki – zarówno w szkołach, jak i na uczelniach. To nie przypadek – składnia Pythona jest prosta i przejrzysta, dzięki czemu nie wymaga dużej wiedzy początkowej ani doświadczenia</p>
+</div>
+
+<div class="square">
+<p>To język, od którego warto zacząć swoją przygodę z IT. Otwiera drzwi do świata programowania i znacznie ułatwia naukę innych języków, ponieważ wiele zasad, terminów i podejść jest wspólnych lub bardzo podobnych</p>
+</div>
+
+<div class="square">
+<p>Python posiada ogromną społeczność oraz mnóstwo darmowych zasobów edukacyjnych – tutoriali, kursów i dokumentacji. Dzięki temu nauka jest łatwiejsza, a problemy programistyczne można rozwiązać szybciej z pomocą innych.</p>
+</div>
+
+<div class="square">
+  <p>Sam wybrałem Pythona jako swój pierwszy język programowania i nie żałuję tej decyzji. Dzięki niemu udało mi się szybko zacząć pisać działające programy i zrozumieć podstawy informatyki.</p>
+</div>
+
+<div class="square">
+<p>Na tej stronie chciałbym podzielić się moimi pierwszymi (i nie tylko) projektami stworzonymi w Pythonie. Zobaczymy, jak działa kod, co się za nim kryje i jak z każdym nowym zadaniem można stawać się lepszym programistą</p>
+</div>
+
+</div>
+
+<h1>Projekty:</h1>
+
+<div class="button_container">
+<a href="gra_w_zycie.html" target="_blank" rel="noopener noreferrer" class="button-link"><b>Gra w życie</b></a>
+
+<a href="symulacja_ekosystemy.html" target="_blank" rel="noopener noreferrer" class="button-link"><b>Symulacja ekosystemy</b></a>
+</div>
+
+</main>
+
+<script>
+  const nav = document.querySelector('.nav1');
+  const toggleButton = document.getElementById('toggleNav');
+
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  function checkMobileMenu() {
+    if (isMobile()) {
+      toggleButton.classList.remove('hidden');
+      nav.classList.add('hidden');
+    } else {
+      toggleButton.classList.add('hidden');
+      nav.classList.remove('hidden');
+      nav.classList.remove('active');
+    }
+  }
+
+  toggleButton.addEventListener('click', () => {
+    nav.classList.toggle('active');
+  });
+
+  window.addEventListener('resize', checkMobileMenu);
+  window.addEventListener('load', checkMobileMenu);
+</script>
+
+<footer style="text-align:center; padding:20px; margin-top:50px; color:gray;">
+  © 2025 Vladyslav Dovhopiatyi. Wszelkie prawa zastrzeżone.
+</footer>
+
+</body>
+</html>
