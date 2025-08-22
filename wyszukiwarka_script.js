@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const staticSuggestions = [
     { name: "Symulacja ekosystemy", url: "symulacja_ekosystemy.html" },
     { name: "Gra w życie", url: "gra_w_zycie.html" },
-    { name: "Python: co to?", url: "python.html" },
+    { name: "Python: co to?", url: "index.html" },
     { name: "O mnie", url: "omnie.html" }
   ];
 
@@ -97,3 +97,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
