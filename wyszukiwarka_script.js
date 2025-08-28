@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     { name: "Symulacja ekosystemy", url: "symulacja_ekosystemy.html" },
     { name: "Gra w życie", url: "gra_w_zycie.html" },
     { name: "Python: co to?", url: "index.html" },
+    { name: "Zhoska bitwa", url: "zhoska_bitwa.html" },
     { name: "O mnie", url: "omnie.html" }
   ];
 
@@ -97,4 +98,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
-

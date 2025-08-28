@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="keywords" content="projekty, Python, Java, Gra w życie, ekosystem, symulacje, programowanie, Vladyslav Dovhopiatyi">
+<meta name="description" content="Strategiczna gra z dyplomacją i trybem boga na PC. Wybierz jedną z czterech cywilizacji: Elfy ze strzałami z daleka, liczne Gobliny, potężne Orki albo Ludzi z głównym magiem. Każda cywilizacja ma swojego króla i unikalne zdolności. Wybierz swoją drużynę!">
+<title>Zhoska bitwa — gra w Pythonie z trybem boga i dyplomacją</title>
+<link rel="icon" type="image/png" href="favicon.png">
+
+<style>
+
+* {box-sizing: border-box;} 
+
+@keyframes colorchange {
+0% {background-color: #ffffff;}
+20% {background-color: #ccffcc;}
+40% {background-color: #ffffff;}
+60% {background-color: #ccffff;}
+80% {background-color: #ffffff;}
+100% {background-color: #ccccff;}
+}
+
+body {
+margin-top: 80px;
+animation: colorchange 60s infinite;
+}
+
+header {
+position: fixed;
+top:0; left:0; right:0;
+z-index: 1000;
+background-color: #0040ff;
+padding: 10px;
+display: flex;
+justify-content: space-between;
+max-height: 100px;
+}
+
+.szukaj-container {	
+max-width: 250px;
+margin: 10px auto
+}
+
+#google_search {
+width: 200%;
+padding: 10px 10px 10px 15px;
+border: 1px solid black;
+border-radius: 25px;
+}
+
+.autocomplete-item {
+background-color: white;
+border: 1px solid #d4d4d4;
+cursor: pointer;
+padding: 10px;
+width: 200%;
+}
+
+.autocomplete-item:hover {
+background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+background-color: #d4d4d4;
+}
+
+.nav1 {
+position: fixed;
+top: 70px;
+left: 0;
+width: 20%;
+height: 100%; 
+background-color: rgb(0, 162, 255);
+padding: 20px;
+}
+
+.nav1 a {
+display: block;
+padding: 10px 20px;
+text-decoration: none;
+color: black;
+}
+
+.nav1 a:hover {
+background-color: hsl(280, 100%, 70%)
+}
+
+.headers {
+text-align:center;
+margin-left: 25%;
+width: 75%;
+}
+
+p {
+text-align:center;
+margin-left: 25%;
+font-size: 120%;
+line-height: 1.6;
+}
+
+@keyframes bounce {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(10px); }
+}
+
+.style_code {
+background-color: #f2f2f2;
+border-radius: 10px;
+font-size: 14px;
+line-height: 1.5;
+border: 2px solid rgb(128, 128, 128);
+margin-left: 25%;
+padding: 10px;
+display: block;
+overflow-x: auto;
+max-height: 250px;
+overflow-y: hidden;
+}
+
+.style_code.expanded {
+max-height: 700px;
+overflow-y: auto;
+}
+
+.button_container {
+text-align: center;
+margin-left: 25%;
+width: 75%;
+}
+
+a.button-link {
+text-align:center;
+border-radius: 25px;
+background-color:#cc66ff;
+color:white;
+padding: 15px 25px;
+text-decoration: none;
+display: inline-block;
+margin: 5px;
+}
+a.button-link:hover {
+background-color: #d32f2f;
+}
+
+.square_container {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+margin-left: 25%;
+width: 75%;
+gap: 20px;
+margin-top: 30px;
+}
+
+.square {
+background-color:#ffffff;
+border-radius: 15px;
+padding: 20px;
+width: 100%;
+box-shadow: 10px 10px 1px #ccccff;
+transition: transform 0.5s;
+display: flex;
+align-items: center;
+min-height: 200px; 
+}
+
+.square p {
+text-align: left;
+margin: 0;
+line-height: 2;
+}
+
+@media (max-width: 768px) {
+
+.szukaj-container {
+max-width: 100%;
+width: 250px;
+margin: 10px auto;
+}
+
+#google_search {
+width: 100%;
+padding: 10px 15px;
+border: 1px solid black;
+border-radius: 25px;
+box-sizing: border-box;
+}
+
+.nav1 {
+width: 250px;
+left: -260px;
+transition: left 0.3s ease;
+padding-top: 60px;
+}
+
+.nav1.active {
+left: 0;
+}
+
+#toggleNav {
+position: fixed;
+top: 82px;
+left: 0px;
+z-index: 1100;
+font-size: 20px;
+background: #669999;
+color: white;
+border: 3px solid black;
+padding: 8px 12px;
+cursor: pointer;
+display: block;
+}
+
+#toggleNav.hidden {
+display: none;
+}
+
+header {
+display: flex;
+flex-wrap: wrap; 
+align-items: center;
+justify-content: space-between;
+}
+
+h1, p, .square_container, .button_container {
+margin-left: 0;
+width: 100%;
+padding: 10px;
+}
+
+.headers {
+text-align: center;
+padding: 10px;
+width: 100%;
+}
+
+p {
+text-align: center;
+padding: 10px;
+font-size: 120%;
+width: 100%;
+}
+
+.square {
+padding: 10px;
+font-size: 100%;
+}
+
+.style_code {
+font-size: 12px;
+padding: 10px;
+margin: 0;
+width: 100%;
+}
+
+.headers, p, .button_container {
+padding: 10px;
+margin-left: 0;
+width: 100%;
+}
+  
+.square, .headers, .style_code {
+max-width: 900px;
+margin: auto;
+}
+
+.square_container {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+padding: 10px;
+gap: 20px;
+margin-left: 0;
+width: 100%;
+}
+.square {
+width: 100%;
+}
+}
+</style>
+
+</head>
+<body>
+
+<button id="toggleNav" class="hidden" aria-label="Menu">☰</button>
+
+<header>
+
+<a href="omnie.html">
+<img src="favi.jpg" alt="Logo strony" width="50" height="50">
+</a>
+
+<div class="szukaj-container">
+<input id="google_search" type="text" placeholder="Wyszukiwarka projektów" autocomplete="off" oninput="obsługa_wyszukiwarki()" aria-label="Wyszukiwarka projektów">
+<div id="autocomplete-list" class="autocomplete-items" style="max-width: 250px; margin-top: 5px;"></div>
+</div>
+
+</header>
+
+<nav class="nav1">
+<a href="index.html">Python: co to?</a>
+<a href="gra_w_zycie.html">Gra w życie</a>
+<a href="symulacja_ekosystemy.html">Symulacja ekosystemy</a>
+<a href="zhoska_bitwa.html">Zhoska bitwa</a>
+<a href="omnie.html">O mnie</a>
+</nav>
+
+<main>
+
+<script src="wyszukiwarka_script.js"></script>
+
+<h1 class="headers">Zhoska bitwa</h1>
+
+<div class="square_container">
+<div class="square">
+
+<p>"Zhoska Bitwa" &mdash; gra stworzona w bibliotece Pygame. Każda jednostka, poruszając się po mapie, zaznacza teren kolorem swojej cywilizacji, walczy, rozmnaża się i może zginąć. Gracz ma możliwość wyboru sojuszników i przeciwników, korzystania z klimatycznych efektów dźwiękowych oraz włączenia trybu boga, aby wpływać na przebieg bitwy.</p>
+
+</div>
+</div>
+
+<p style="color:#cc0000;"><strong>&#128187; Pełny kod znajdziesz na końcu tej strony. &#128187; </strong></p>
+
+<p style="padding-top:0px; font-size: 250%; color:#cc0000; animation: bounce 1.5s infinite;"><b>&#x2B07; &#x2B07; &#x2B07;</b></p>
+
+<div class="button_container">
+<a href="#projekt_kon_sym" class="button-link"><b>Zhoska bitwa</b></a>
+</div>
+<br>
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Imports</h2>
+
+
+<pre><code class="style_code">
+import pygame
+import random
+</code></pre>
+
+<div class="square_container">
+<div class="square">
+
+<p><b style="color:#e65c00">import</b> <b>pygame</b> &mdash; biblioteka do tworzenia gier w Pythonie. Umożliwia obsługę grafiki, dźwięku, animacji oraz interakcji z klawiaturą i myszką.<br>
+
+<b style="color:#e65c00">import</b> <b>random</b> &mdash; moduł do generowania losowych liczb, wyboru elementów i dodawania elementu nieprzewidywalności do gry.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Rozmiary</h2>
+
+<pre><code class="style_code">
+rozmiar_komorki = 25
+rozmiar_okna_x = 50
+rozmiar_okna_y = 30
+szerokosc = rozmiar_komorki * rozmiar_okna_x #1250
+wysokosc = rozmiar_komorki * rozmiar_okna_y  #750
+pole_size = 6
+</code></pre>
+
+<div class="square_container">
+<div class="square">
+
+<p><code>rozmiar_komorki = 25</code> &mdash; określa rozmiar pojedynczej komórki w pikselach.<br>
+<code>rozmiar_okna_x = 50, rozmiar_okna_y = 30</code> &mdash; liczba komórek w poziomie i pionie.<br>
+<code>szerokosc i wysokosc</code> &mdash; całkowite wymiary okna w pikselach (1250 × 750).<br>
+<code>pole_size = 6</code> &mdash; dodatkowy parametr określający np. wielkość pola gry lub odstęp między komórkami.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Kolory</h2>
+
+<pre><code class="style_code">
+Green = (179, 255, 179)
+Red = (255, 204, 204)
+Blue = (179, 179, 255)
+Yellow = (255, 255, 153)
+White = (255, 255, 255)
+Black = (0, 0, 0)
+Gray = (150, 150, 150)
+Kolor_szpital = (0, 255, 255, 100)
+</code></pre>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Inicjalizacja gry w Pygame: ustawienie okna, tytułu, czcionek, zegara FPS oraz wczytanie tła i modułu dźwięku.</h2>
+
+<pre><code class="style_code">
+pygame.init()
+pygame.mixer.init()
+okno = pygame.display.set_mode((szerokosc, wysokosc))
+pygame.display.set_caption("Zhoska bitwa")
+font = pygame.font.SysFont("Segoe UI Emoji", 20)
+font_menu = pygame.font.SysFont("Segoe UI Emoji", 30)
+clock = pygame.time.Clock()
+tlo = pygame.image.load("fon1.png").convert()
+gear = pygame.image.load("gear.png")
+gear = pygame.transform.scale(gear, (100, 100))
+</code></pre>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Muzyka</h2>
+
+<pre><code class="style_code">
+pygame.mixer.music.load('background_music1.wav')
+super_ork_dead = pygame.mixer.Sound('ork_die.wav')
+super_ork_dead.set_volume(0.8)
+goblin_spawn_thresholds = pygame.mixer.Sound('goblin_spawn_thresholds.wav')
+goblin_spawn_thresholds.set_volume(0.5)
+super_goblin_death = pygame.mixer.Sound('super_goblin_death.wav')
+super_goblin_death.set_volume(0.7)
+super_elf_attack = pygame.mixer.Sound('super_elf_attack.wav')
+super_elf_attack.set_volume(0.1)
+super_mag_attack1 = pygame.mixer.Sound('super_mag_attack1.wav')
+super_mag_attack1.set_volume(0.5)
+</code></pre>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Ustawienia początkowe rozgrywki i trybu gry</h2>
+
+<pre><code class="style_code">
+allies = set()
+enemies = set()
+classes = ["Elf", "Goblin", "Ork", "People"]
+class_colors = {
+    "Elf": Green,
+    "Goblin": Yellow,
+    "Ork": Red,
+    "People": Blue
+}
+
+music_on = True
+god_mode = False
+paused = False
+selected_god_unit_type = None
+selected_object_to_move = None
+selected_object_original_pos = None
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p>Ten fragment kodu definiuje podstawowe ustawienia gry: listę cywilizacji i ich kolory, zbiory sojuszników i przeciwników oraz zmienne sterujące — muzyką, trybem boga, pauzą i wyborem jednostek lub obiektów do przesunięcia.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Klasa Organizm &mdash; główna klasa gry</h2>
+
+<pre><code class="style_code">
+class Organizm:
+    def __init__(self):
+        self.moc = 0
+        self.zdrowie = 0
+        self.napadnik = None
+
+    def symbol(self):
+        return '⬜'
+</code></pre>
+
+<div class="square_container">
+<div class="square">
+
+<p>class Organizm: &mdash; główna klasa, z której dziedziczą wszystkie inne organizmy.
+Na początku posiada <b>0 zdrowia</b> i <b>0 mocy</b>, a także atrybut <b>napadnik</b>.
+Metoda <b>symbol()</b> zwraca znak graficzny (⬜), który będzie nadpisany w klasach potomnych. Dzięki temu inne organizmy (np. Elf, Goblin, Ork, Ludzie) mogą zmieniać i rozszerzać te ustawienia, nadając sobie unikalne cechy jak siła, zdrowie czy własny symbol na planszy.</p>
+
+</div>
+</div>
+
+<h2 class="headers">Reakcja jednostek na atak oraz aktualizacja pozycji</h2>
+
+<pre><code class="style_code">
+    def ruch(self, x, y, plansza):
+        #najpierw elfy atakują
+        if isinstance(self, (Elf, Super_elf, Super_mag)):
+            if self.atak_z_dystansu(x, y, plansza):
+                return
+
+#Jeśli doszło do ostrzału z dystansu - reaguj
+        if self.napadnik:
+            nx, ny = self.napadnik
+            dx = nx - x
+            dy = ny - y
+            krok_x = 1 if dx > 0 else -1 if dx &lt; 0 else 0
+            krok_y = 1 if dy > 0 else -1 if dy &lt; 0 else 0
+            cel_x = x + krok_x
+            cel_y = y + krok_y
+            if 0 &lt;= cel_x &lt; len(plansza[0]) and 0 &lt;&#61; cel_y &lt; len(plansza):
+                cel = plansza[cel_y][cel_x]
+                if isinstance(cel, Pustka):
+                    plansza[cel_y][cel_x] = self
+                    plansza[y][x] = Pustka()
+                    # aktualizacja położenia super orka
+                    if isinstance(self, (Super_ork, Super_mag)):
+                        self._update_position(cel_x, cel_y)
+                    kolor = kolor_terenu(self)
+                    if kolor:
+                        kolory_terenu[cel_y][cel_x] = kolor
+                    return
+                elif self.czy_wrog(cel):
+                    self.walcz(cel)
+                    if cel.zdrowie &lt;= 0:
+                        plansza[cel_y][cel_x] = self
+                        plansza[y][x] = Pustka()
+                        # aktualizacja położenia super orka
+                        if isinstance(self, (Super_ork, Super_mag)):
+                            self._update_position(cel_x, cel_y)
+                    elif self.zdrowie &lt;= 0:
+                        plansza[y][x] = Pustka()
+                    return
+#Jeśli cel został osiągnięty lub zniknął, zresetuj współrzędne.
+            if (nx, ny) &#61;&#61; (x, y) or not isinstance(plansza[ny][nx], Organizm):
+                self.napadnik = None
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p>Metoda ruch(self, x, y, plansza) odpowiada za logikę poruszania się jednostek oraz ich reakcję na ataki. Najpierw sprawdzane jest, czy dana jednostka jest <b>Elfem</b>, <b>Super Elfem</b> lub <b>Super Magiem</b> – wtedy wykonywany jest atak z dystansu.
+Jeżeli jednostka została zaatakowana, obliczany jest kierunek ruchu w stronę napastnika. Następnie jednostka wykonuje krok: <br>1.jeśli pole docelowe jest <b>Pustką</b>, jednostka przesuwa się i ewentualnie aktualizuje kolor terenu, <br>2.jeśli na polu znajduje się <b>wrog</b>, dochodzi do walki i w zależności od wyniku jednostki są usuwane lub przemieszczane.<br> Dodatkowo w przypadku <b>Super Orka</b> i <b>Super Maga</b> aktualizowane są współrzędne ich pozycji w grze za pomocą metody <b>_update_position()</b>.Na końcu, jeśli cel został osiągnięty lub przestał istnieć, współrzędne atakującego (<b>napadnik</b>) są resetowane.</p>
+
+</div>
+</div>
+
+<h2 class="headers">Logika ruchu, zbierania zasobów i walki jednostek</h2>
+
+<pre><code class="style_code">
+        kierunki = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        random.shuffle(kierunki)
+#Wyszukuje zasoby w pobliżu sąsiednich komórek
+        for dx, dy in kierunki:
+            nowy_x = x + dx
+            nowy_y = y + dy
+            if 0 &lt;= nowy_x &lt; len(plansza[0]) and 0 &lt;= nowy_y &lt; len(plansza):
+                cel = plansza[nowy_y][nowy_x]
+                if isinstance(self, (Elf, Goblin, Ork, People, Super_elf, Super_goblin, Super_ork, Super_mag)):
+                    if isinstance(cel, (Wood, Stone, Roslina, Roslinozerca)):
+                        if isinstance(cel, Wood):
+                            self.zasoby["wood"] += 1
+                        elif isinstance(cel, Stone):
+                            self.zasoby["stone"] += 1
+                        elif isinstance(cel, Roslina):
+                            self.zasoby["plants"] += 1
+                        elif isinstance(cel, Roslinozerca):
+                            self.zasoby["meat"] += 1
+
+                        plansza[nowy_y][nowy_x] = self
+                        plansza[y][x] = Pustka()
+                        # aktualizacja położenia super orka
+                        if isinstance(self, (Super_ork, Super_mag)):
+                            self._update_position(nowy_x, nowy_y)
+                        kolor = kolor_terenu(self)
+                        if kolor:
+                            kolory_terenu[nowy_y][nowy_x] = kolor
+                        return
+
+#Jeśli wróg w pobliżu, atakuj
+        for dx, dy in kierunki:
+            nowy_x = x + dx
+            nowy_y = y + dy
+            if 0 &lt;= nowy_x &lt; len(plansza[0]) and 0 &lt;= nowy_y &lt; len(plansza):
+                cel = plansza[nowy_y][nowy_x]
+                if self.czy_wrog(cel):
+                    self.walcz(cel)
+
+                    if cel.zdrowie &lt;= 0:
+                        plansza[nowy_y][nowy_x] = self
+                        plansza[y][x] = Pustka()
+                        #aktualizacja położenia super orka
+                        if isinstance(self, (Super_ork, Super_mag)):
+                            self._update_position(nowy_x, nowy_y)
+                        kolor = kolor_terenu(self)
+                        if kolor:
+                            kolory_terenu[nowy_y][nowy_x] = kolor
+                    elif self.zdrowie &lt;= 0:
+                        if isinstance(self, Super_ork):
+                            super_ork_dead.play()
+                        elif isinstance(self, Super_goblin):
+                            super_goblin_death.play()
+                        plansza[y][x] = Pustka()
+                    return
+
+#Jeśli w pobliżu niema żadnego zasobu, przechodzi do pustej komórki
+        for dx, dy in kierunki:
+            nowy_x = x + dx
+            nowy_y = y + dy
+            if 0 &lt;= nowy_x &lt; len(plansza[0]) and 0 &lt;= nowy_y &lt; len(plansza):
+                cel = plansza[nowy_y][nowy_x]
+                if isinstance(cel, Pustka):
+                    plansza[nowy_y][nowy_x] = self
+                    plansza[y][x] = Pustka()
+                    #aktualizacja położenia super orka
+                    if isinstance(self, (Super_ork, Super_mag)):
+                        self._update_position(nowy_x, nowy_y)
+                    kolor = kolor_terenu(self)
+                    if kolor:
+                        kolory_terenu[nowy_y][nowy_x] = kolor
+                    return
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p>Najpierw losowana jest kolejność kierunków ruchu (<code>kierunki</code>), aby dodać element losowości.
+1. <b>Wyszukiwanie zasobów</b> - jednostka sprawdza sąsiednie pola. Jeśli znajduje tam <b>drewno</b>, <b>kamień</b>, <b>roślinę</b> lub <b>roślinożercę</b>, zbiera odpowiedni zasób i zajmuje dane pole.<br>
+2. <b>Walka</b> - jeśli w pobliżu znajduje się wróg, jednostka atakuje. W przypadku zwycięstwa zajmuje pole przeciwnika. Jeśli zginie, jest usuwana z planszy (w przypadku super jednostek odtwarzany jest dźwięk śmierci).<br>
+3. <b>Ruch w puste pole</b> - gdy w pobliżu nie ma zasobów ani przeciwników, jednostka przemieszcza się na losowe puste pole obok. Dodatkowo, w przypadku <b>Super Orka</b> i <b>Super Maga</b>, aktualizowane są współrzędne ich pozycji poprzez metodę <b>_update_position()</b></p>
+
+</div>
+</div>
+
+
+<h2 class="headers">Budowanie domu</h2>
+
+<pre><code class="style_code">
+    def buduj_dom(self, x, y, plansza, kolory_terenu):
+        if not isinstance(self, (Elf, Goblin, Ork, People, Super_elf, Super_goblin, Super_ork, Super_mag)):
+            return
+
+        kolor = kolor_terenu(self)
+
+        if self.zasoby["wood"] >= 3 and self.zasoby["stone"] >= 1:
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                nx, ny = x + dx, y + dy
+                if 0 &lt;= nx &lt; len(plansza[0]) and 0 &lt;= ny &lt; len(plansza):
+                    if isinstance(plansza[ny][nx], Pustka) and kolory_terenu[ny][nx] == kolor:
+                        plansza[ny][nx] = Dom(kolor)
+                        kolory_terenu[ny][nx] = kolor
+                        self.zasoby["wood"] -= 3
+                        self.zasoby["stone"] -= 1
+                        return
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p>Metoda <code>buduj_dom(self, x, y, plansza, kolory_terenu)</code> pozwala jednostkom (Elf, Goblin, Ork, Ludzie oraz ich wersje „Super”) wznosić budynki, gdy posiada co najmniej <b>3 drewna</b> i <b>1 kamień</b> oraz kiedy ma w pobliżu Pustkę</p>
+
+</div>
+</div>
+
+<h2 class="headers">Logika definiowania wroga i walka jednostek</h2>
+
+<pre><code class="style_code">
+    # Sprawdza, czy inny organizm to wróg, uwzględniając dyplomację
+    def czy_wrog(self, inny):
+        if not isinstance(self, (Elf, Goblin, Ork, People, Super_elf, Super_goblin, Super_ork, Super_mag)) or \
+            not isinstance(inny, (Elf, Goblin, Ork, People, Super_elf, Super_goblin, Super_ork, Super_mag)):
+            return False
+    #Ta sama rasa nie jest wrogiem
+        if type(self) == type(inny):
+            return False
+
+        #Sprawdzenie globalnych ustawień dyplomacji
+        self_class_name = type(self).__name__
+        inny_class_name = type(inny).__name__
+
+        # Sprawdzenie, czy Super_elf jest sojusznikiem lub wrogiem zgodnie z zasadami dla Elfa
+        if self_class_name == "Super_elf":
+            self_class_name = "Elf"
+        if inny_class_name == "Super_elf":
+            inny_class_name = "Elf"
+
+        if self_class_name == "Super_goblin":
+            self_class_name = "Goblin"
+        if inny_class_name == "Super_goblin":
+            inny_class_name = "Goblin"
+
+        if self_class_name == "Super_ork":
+            self_class_name = "Ork"
+        if inny_class_name == "Super_ork":
+            inny_class_name = "Ork"
+
+        if self_class_name == "Super_mag":
+            self_class_name = "People"
+        if inny_class_name == "Super_mag":
+            inny_class_name = "People"
+
+        if not allies and not enemies:
+            return self_class_name != inny_class_name
+
+        if self_class_name in allies and inny_class_name in allies:
+            return False  # Sojusznicy nie są wrogami
+        if self_class_name in enemies and inny_class_name in enemies:
+            return False  # Wrogowie wobec siebie nie są wrogami (walczą z innymi)
+
+        # Jeśli self jest sojusznikiem, a inny nie jest sojusznikiem, to inny jest wrogiem
+        if self_class_name in allies and inny_class_name not in allies:
+            return True
+        if self_class_name in enemies and inny_class_name not in enemies:
+            return True
+
+        return False
+
+#Zwalcza przeciwnika, modyfikując zdrowie
+    def walcz(self, przeciwnik):
+        przeciwnik.zdrowie -= self.moc
+        if przeciwnik.zdrowie > 0:
+            self.zdrowie -= przeciwnik.moc
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p>Metoda <code>czy_wrog(self, inny)</code> sprawdza, czy inny organizm jest wrogiem, biorąc pod uwagę <b>dyplomację</b> oraz rasę jednostek.
+Zasady: Jednostki tej samej rasy nie są wrogami, jeśli nie ma zdefiniowanych sojuszników ani wrogów, wrogami są wszystkie inne rasy, sojusznicy wobec siebie nie walczą, wrogowie walczą tylko z innymi rasami, nie między sobą.<br>
+Metoda <code>walcz(self, przeciwnik)</code> przeprowadza starcie: zdrowie przeciwnika zmniejsza się o moc atakującego. Jeśli przeciwnik przeżyje, kontratakuje, zadając obrażenia zdrowiu jednostki atakującej.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Przypisywanie koloru do jednostki</h2>
+
+<pre><code class="style_code">
+def kolor_terenu(organizm):
+    if isinstance(organizm, (Elf, Super_elf)):
+        return Green
+    elif isinstance(organizm, (Goblin, Super_goblin)):
+        return Yellow
+    elif isinstance(organizm, (Ork, Super_ork)):
+        return Red
+    elif isinstance(organizm, (People, Super_mag)):
+        return Blue
+    return None
+</code></pre>
+
+<div class="square_container">
+<div class="square">
+
+<p>Funkcja <code>kolor_terenu(organizm)</code> zwraca kolor odpowiadający danej rasie organizmu.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Pustka</h2>
+
+<pre><code class="style_code">
+class Pustka(Organizm):
+    def symbol(self):
+        return ""
+</code></pre>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Elf, Super elf, strzała</h2>
+
+<pre><code class="style_code">
+class Elf(Organizm):
+    def __init__(self):
+        super().__init__()
+        self.moc = 5
+        self.zdrowie = 50
+        self.max_zdrowie = 50
+        self.zasoby = {"wood": 0, "stone": 0, "plants": 0, "meat": 0}
+        self.symbol_ = random.choice(["🧝", "🧝‍♂️", "🧝‍♀️"])
+    def symbol(self):
+        return self.symbol_
+
+    def atak_z_dystansu(self, x, y, plansza):
+        zasieg = 5
+        for dy in range(-zasieg, zasieg + 1):
+            for dx in range(-zasieg, zasieg + 1):
+                if dx == 0 and dy == 0:
+                    continue
+                cel_x, cel_y = x + dx, y + dy
+                if 0 &lt;= cel_x &lt; len(plansza[0]) and 0 &lt;= cel_y &lt; len(plansza):
+                    cel = plansza[cel_y][cel_x]
+                    if self.czy_wrog(cel):
+                        cel.napadnik = (x, y)
+                        strzaly.append(Strzala(x, y, cel_x, cel_y, self))
+                        return True
+        return False
+
+class Super_elf(Elf):
+    def __init__(self):
+        super().__init__()
+        self.moc = 20
+        self.zdrowie = 200
+        self.max_zdrowie = 200
+        self.zasoby = {"wood": 0, "stone": 0, "plants": 0, "meat": 0}
+    def symbol(self):
+        return "🏹"
+
+    def atak_z_dystansu(self, x, y, plansza):
+        zasieg = 10
+        for dy in range(-zasieg, zasieg + 1):
+            for dx in range(-zasieg, zasieg + 1):
+                if dx == 0 and dy == 0:
+                    continue
+                cel_x, cel_y = x + dx, y + dy
+                if 0 &lt;= cel_x &lt; len(plansza[0]) and 0 &lt;= cel_y &lt; len(plansza):
+                    cel = plansza[cel_y][cel_x]
+                    if self.czy_wrog(cel):
+                        cel.napadnik = (x, y)
+                        strzaly.append(Strzala(x, y, cel_x, cel_y, self))
+                        super_elf_attack.play()
+                        return True
+        return False
+
+class Strzala:
+    def __init__(self, x, y, cel_x, cel_y, strzelec):
+        self.x = x
+        self.y = y
+        self.cel_x = cel_x
+        self.cel_y = cel_y
+        self.strzelec = strzelec
+        self.ikona = "'"
+        self.kroki = 5
+        self.licznik = 0
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p><b>Elf</b> - jednostka o średniej sile i wytrzymałości. Dysponuje mocą 5 oraz 50 punktami zdrowia. Potrafi prowadzić <code>atak_z_dystansu</code> na odległość do 5 pól, wybierając losowy symbol graficzny.<br> <b>Super_elf</b> - wzmocniona wersja elfa. Ma 20 mocy i 200 punktów zdrowia. Jego atak zasięgowy obejmuje aż 10 pól, a podczas strzału odtwarzany jest specjalny efekt dźwiękowy. Symbol jednostki: 🏹.<br> <b>Strzała</b> - obiekt reprezentujący pocisk wystrzelony przez elfa lub super elfa. Zawiera współrzędne startowe i cel, ikonę („'”), a także licznik kroków określający tor lotu.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Gobliny i Super goblin </h2>
+
+<pre><code class="style_code">
+class Goblin(Organizm):
+    def __init__(self):
+        super().__init__()
+        self.moc = 10
+        self.zdrowie = 30
+        self.max_zdrowie = 30
+        self.zasoby = {"wood": 0, "stone": 0, "plants": 0, "meat": 0}
+    def symbol(self):
+        return "👺"
+
+class Super_goblin(Goblin):
+    def __init__(self):
+        super().__init__()
+        self.moc = 30
+        self.zdrowie = 200
+        self.max_zdrowie = 200
+        self.zasoby = {"wood": 0, "stone": 0, "plants": 0, "meat": 0}
+        self.wywolanie_zdrowia = set()
+
+    def symbol(self):
+        return "👹"
+
+    def spawn_goblins_around(self, x, y, plansza, count=50, radius=6):
+        puste_pola = []
+        for dy in range(-radius, radius + 1):
+            for dx in range(-radius, radius + 1):
+                nx, ny = x + dx, y + dy
+                if 0 &lt;= nx &lt; len(plansza[0]) and 0 &lt;= ny &lt; len(plansza):
+                    if isinstance(plansza[ny][nx], Pustka):
+                        puste_pola.append((nx, ny))
+        random.shuffle(puste_pola)
+        for _ in range(min(count, len(puste_pola))):
+            nx, ny = puste_pola.pop()
+            plansza[ny][nx] = Goblin()
+            kolory_terenu[ny][nx] = kolor_terenu(Goblin())
+
+    def walcz(self, przeciwnik):
+        przeciwnik.zdrowie -= self.moc
+        if przeciwnik.zdrowie > 0:
+            self.zdrowie -= przeciwnik.moc
+
+        if self.zdrowie > 0:
+            self.check_health_triggers(przeciwnik)
+
+        if self.zdrowie &lt;= 0:
+            self.spawn_goblins_on_death(przeciwnik)
+
+    def check_health_triggers(self, przeciwnik):
+        thresholds = {150, 100, 50}
+        for threshold in thresholds:
+            if self.zdrowie &lt;= threshold and threshold not in self.wywolanie_zdrowia:
+                self.wywolanie_zdrowia.add(threshold)
+                self.find_and_spawn(przeciwnik)
+                goblin_spawn_thresholds.play()
+
+    def spawn_goblins_on_death(self, przeciwnik):
+        self.find_and_spawn(przeciwnik)
+
+    def find_and_spawn(self, przeciwnik):
+        for y in range(len(plansza)):
+            for x in range(len(plansza[0])):
+                if plansza[y][x] is self:
+                    self.spawn_goblins_around(x, y, plansza)
+                    return
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p><b>Goblin</b> - jednostka o 10 mocy i 30 punktach zdrowia. Symbol: 👺.<br>
+<b>Super_goblin</b> – wzmocniona wersja goblina z 30 mocą i 200 punktami zdrowia. Symbol: 👹. Posiada unikalną zdolność <code>spawn_goblins_around()</code>, która generuje gobliny wokół siebie kiedy zdrowie spada poniżej progów (150, 100, 50). Dźwięk <code>goblin_spawn_thresholds.play()</code> sygnalizuje aktywację tej zdolności.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Orki i Super ork</h2>
+
+<pre><code class="style_code">
+class Ork(Organizm):
+    def __init__(self):
+        super().__init__()
+        self.moc = 15
+        self.zdrowie = 70
+        self.max_zdrowie = 70
+        self.zasoby = {"wood": 0, "stone": 0, "plants": 0, "meat": 0}
+    def symbol(self):
+        return "🧟‍♂️"
+
+    def walcz(self, przeciwnik):
+        przeciwnik.zdrowie -= self.moc
+        if przeciwnik.zdrowie > 0:
+            self.zdrowie -= przeciwnik.moc
+
+class Super_ork(Ork):
+    def __init__(self):
+        super().__init__()
+        self.moc = 25
+        self.zdrowie = 250
+        self.max_zdrowie = 250
+        self.zasoby = {"wood": 0, "stone": 0, "plants": 0, "meat": 0}
+        self.heal_range = 4
+        self.current_x = -1
+        self.current_y = -1
+    def symbol(self):
+        return "🪓"
+
+    def _update_position(self, x, y):
+        self.current_x = x
+        self.current_y = y
+
+    def leczenie_sojusznikow(self, x, y, plansza):
+        for dy in range(-self.heal_range, self.heal_range + 1):
+            for dx in range(-self.heal_range, self.heal_range + 1):
+                nx, ny = x + dx, y + dy
+                if 0 &lt;= nx &lt; len(plansza[0]) and 0 &lt;= ny &lt; len(plansza):
+                    cel = plansza[ny][nx]
+                    if isinstance(cel, (Ork, Super_ork)):
+                        if cel.zdrowie &lt; cel.max_zdrowie:
+                            cel.zdrowie = min(cel.zdrowie + 5, cel.max_zdrowie)
+
+    def walcz(self, przeciwnik):
+        przeciwnik.zdrowie -= self.moc
+        if przeciwnik.zdrowie > 0:
+            self.zdrowie -= przeciwnik.moc
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p><b>Ork</b> - silna jednostka o 15 mocy i 70 punktach zdrowia. Symbol: 🧟‍♂️. Podczas walki zadaje obrażenia przeciwnikowi równoważne swojej mocy, a jeśli przeciwnik przeżyje, otrzymuje kontratak. <br><b>Super_ork</b> - elitarny ork o 25 mocy i 250 punktach zdrowia. Symbol: 🪓. Posiada specjalną zdolność <code>leczenie_sojuszników()</code>, która przywraca zdrowie pobliskim orkowym jednostkom w promieniu 4 pól (do 5 punktów na turę). Dodatkowo jego pozycja jest aktualizowana metodą <code>_update_position()</code> w trakcie ruchu lub walki.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Ludzie, Super mag i ogien</h2>
+
+<pre><code class="style_code">
+class People(Organizm):
+    def __init__(self):
+        super().__init__()
+        self.moc = 10
+        self.zdrowie = 50
+        self.max_zdrowie = 50
+        self.zasoby = {"wood": 0, "stone": 0, "plants": 0, "meat": 0}
+    def symbol(self):
+        return "🧑"
+
+class Super_mag(People):
+    def __init__(self):
+        super().__init__()
+        self.moc = 30
+        self.zdrowie = 180
+        self.max_zdrowie = 180
+        self.zasoby = {"wood": 0, "stone": 0, "plants": 0, "meat": 0}
+        self.heal_range = 4
+        self.current_x = -1
+        self.current_y = -1
+        self.zasieg = 5
+    def symbol(self):
+        return "🧙"
+
+    def _update_position(self, x, y):
+        self.current_x = x
+        self.current_y = y
+
+    def walcz(self, przeciwnik):
+        przeciwnik.zdrowie -= self.moc
+        if przeciwnik.zdrowie > 0:
+            self.zdrowie -= przeciwnik.moc
+
+    def leczenie_sojusznikow(self, x, y, plansza):
+        for dy in range(-self.heal_range, self.heal_range + 1):
+            for dx in range(-self.heal_range, self.heal_range + 1):
+                nx, ny = x + dx, y + dy
+                if 0 &lt;= nx &lt; len(plansza[0]) and 0 &lt;= ny &lt; len(plansza):
+                    cel = plansza[ny][nx]
+                    if isinstance(cel, (People, Super_mag)):
+                        if cel.zdrowie &lt; cel.max_zdrowie:
+                            cel.zdrowie = min(cel.zdrowie + 5, cel.max_zdrowie)
+
+    def atak_z_dystansu(self, x, y, plansza):
+        for dy in range(-self.zasieg, self.zasieg + 1):
+            for dx in range(-self.zasieg, self.zasieg + 1):
+                if dx == 0 and dy == 0:
+                    continue
+                cel_x, cel_y = x + dx, y + dy
+                if 0 &lt;= cel_x &lt; len(plansza[0]) and 0 &lt;= cel_y &lt; len(plansza):
+                    cel = plansza[cel_y][cel_x]
+                    if self.czy_wrog(cel):
+                        cel.napadnik = (x, y)
+                        strzaly.append(Ogien(x, y, cel_x, cel_y, self))
+                        super_mag_attack1.play()
+                        return True
+        return False
+
+class Ogien:
+    def __init__(self, x, y, cel_x, cel_y, strzelec):
+        self.x = x
+        self.y = y
+        self.cel_x = cel_x
+        self.cel_y = cel_y
+        self.strzelec = strzelec
+        self.ikona = "🔥"
+        self.kroki = 7
+        self.licznik = 0
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p><b>People</b> - jednostka o 10 mocy i 50 punktach zdrowia. Symbol: 🧑. Nie posiada specjalnych zdolności poza walką wręcz. <br><b>Super_mag</b> - potężna jednostka Ludzi o 30 mocy i 180 punktach zdrowia. Symbol: 🧙. Może leczyć sojuszników w promieniu 4 pól za pomocą <code>leczenie_sojusznikow()</code>. Posiada również <code>atak z dystansu</code> na odległość 5 pól, który wystrzeliwuje pocisk <code>Ogien</code> i uruchamia efekt dźwiękowy <code>super_mag_attack1.play()</code>. Pozycja jednostki aktualizowana jest metodą <code>_update_position()</code>. <br><b>Ogien</b> - obiekt reprezentujący pocisk ognia wystrzelony przez Super_maga. Zawiera współrzędne startowe i cel, ikonę 🔥 oraz licznik kroków określający tor lotu (7 kroków).</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Zasoby</h2>
+
+<pre><code class="style_code">
+
+#Zasoby, które jednostki zbierają do rozmnażania lub budowania domów.
+
+class Wood(Organizm):
+    def __init__(self):
+        super().__init__()
+    def symbol(self):
+        return "🌳"
+
+class Stone(Organizm):
+    def __init__(self):
+        super().__init__()
+    def symbol(self):
+        return "⛰️"
+
+class Roslina(Organizm):
+    def __init__(self):
+        super().__init__()
+    def symbol(self):
+        return "🌾"
+
+class Roslinozerca(Organizm):
+    def __init__(self):
+        super().__init__()
+        self.symbol_ = random.choice(["🐔", "🐇", "🐑", "🐄", "🐷"])
+    def symbol(self):
+        return self.symbol_
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Dom</h2>
+
+<pre><code class="style_code">
+class Dom(Organizm):
+    def __init__(self, kolor):
+        super().__init__()
+        self.kolor = kolor
+    def symbol(self):
+        return "🏠"
+</code></pre>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Szpital</h2>
+
+<pre><code class="style_code">
+class Szpital(Organizm):
+    def __init__(self, kolor_rasy, is_starting_szpital=False):
+        super().__init__()
+        self.kolor_rasy = kolor_rasy #Kolor rasy, którą szpital leczy
+        self.x = -1
+        self.y = -1
+        #Jeśli to szpital początkowy, leczy cały obszar 6x6
+        #Jeśli utworzony w trybie boga, leczy wokół siebie (3 pola w każdą stronę)
+        self.is_starting_szpital = is_starting_szpital
+        self.heal_radius_dynamic = 3 #Promień leczenia dla dynamicznych szpitali
+
+    def symbol(self):
+        return "🏥"
+    def ruch(self, x, y, plansza):
+        pass
+
+    def _update_position(self, x, y):
+        self.x = x
+        self.y = y
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers"><mark>FabrykaKomorek</mark></h2>
+
+<pre><code class="style_code">
+class FabrykaKomorek:
+    @staticmethod
+    def utworz_komorke(type, is_starting_szpital=False):
+        if type == "Elf":
+            return Elf()
+        elif type == "Ork":
+            return Ork()
+        elif type == "People":
+            return People()
+        elif type == "Goblin":
+            return Goblin()
+        elif type == "Wood":
+            return Wood()
+        elif type == "Stone":
+            return Stone()
+        elif type == "Roslinozerca":
+            return Roslinozerca()
+        elif type == "Roslina":
+            return Roslina()
+        elif type == "Szpital":
+            return Szpital(None, is_starting_szpital)
+        elif type == "SuperElf":
+            return Super_elf()
+        elif type == "SuperGoblin":
+            return Super_goblin()
+        elif type == "SuperOrk":
+            return Super_ork()
+        elif type == "SuperMag":
+            return Super_mag()
+        else:
+            return Pustka()
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p><b>FabrykaKomórek</b> - klasa pomocnicza odpowiedzialna za tworzenie obiektów różnych typów jednostek i elementów planszy. Działa na zasadzie fabryki, pozwalając centralnie zarządzać tworzeniem instancji. <code>utworz_komorke(type, is_starting_szpital=False)</code> – metoda statyczna, która na podstawie przekazanego parametru <code>type</code> zwraca nowy obiekt odpowiedniej klasy.
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Plansza i funkcji pomocnicze</h2>
+
+<pre><code class="style_code">
+plansza = [[Pustka() for _ in range(rozmiar_okna_x)] for _ in range(rozmiar_okna_y)]
+kolory_terenu = [[White for _ in range(rozmiar_okna_x)] for _ in range(rozmiar_okna_y)]
+strzaly = []
+
+def get_wolne_pola(x_start, y_start, size):
+    pola = [(x, y) for y in range(y_start, y_start + size) for x in range(x_start, x_start + size)]
+    random.shuffle(pola)
+    return pola
+
+def dodaj_obiekty(type, liczba, pola):
+    for _ in range(min(liczba, len(pola))):
+        x, y = random.choice(pola)
+        pola.remove((x, y))
+        plansza[y][x] = FabrykaKomorek.utworz_komorke(type)
+
+def get_wszystkie_wolne_pola():
+    pola = [(x, y)
+            for y in range(rozmiar_okna_y)
+            for x in range(rozmiar_okna_x)
+            if type(plansza[y][x]) == Pustka]
+    random.shuffle(pola)
+    return pola
+
+def policz_jednostki():
+    liczby = {
+        "Elf": 0,
+        "Ork": 0,
+        "Goblin": 0,
+        "People": 0,
+        "SuperElf": 0,
+        "SuperGoblin": 0,
+        "SuperOrk": 0,
+        "SuperMag": 0
+    }
+    for y in range(rozmiar_okna_y):
+        for x in range(rozmiar_okna_x):
+            if isinstance(plansza[y][x], Elf):
+                liczby["Elf"] += 1
+            elif isinstance(plansza[y][x], Ork):
+                liczby["Ork"] += 1
+            elif isinstance(plansza[y][x], Goblin):
+                liczby["Goblin"] += 1
+            elif isinstance(plansza[y][x], People):
+                liczby["People"] += 1
+            elif isinstance(plansza[y][x], Super_elf):
+                liczby["SuperElf"] += 1
+            elif isinstance(plansza[y][x], Super_goblin):
+                liczby["SuperGoblin"] += 1
+            elif isinstance(plansza[y][x], Super_ork):
+                liczby["SuperOrk"] += 1
+            elif isinstance(plansza[y][x], Super_mag):
+                liczby["SuperMag"] += 1
+    return liczby
+
+def wyczysc_terytorium(kolor_do_usuniecia):
+    for y in range(rozmiar_okna_y):
+        for x in range(rozmiar_okna_x):
+            if kolory_terenu[y][x] == kolor_do_usuniecia:
+                kolory_terenu[y][x] = White
+
+def usun_domy_po_ostatnim_junicie(kolor):
+    for y in range(rozmiar_okna_y):
+        for x in range(rozmiar_okna_x):
+            komorka = plansza[y][x]
+            if isinstance(komorka, Dom) and komorka.kolor == kolor:
+                plansza[y][x] = Pustka()
+            if isinstance(komorka, Szpital) and komorka.kolor_rasy == kolor and komorka.is_starting_szpital:
+                plansza[y][x] = Pustka()
+
+def get_szpital_area_coords(szpital_color):
+    if szpital_color == Green:
+        return 0, 0
+    elif szpital_color == Yellow:
+        return rozmiar_okna_x - pole_size, 0
+    elif szpital_color == Red:
+        return 0, rozmiar_okna_y - pole_size
+    elif szpital_color == Blue:
+        return rozmiar_okna_x - pole_size, rozmiar_okna_y - pole_size
+    return -1, -1
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p>Na początku tworzona jest <b>plansza</b> - 2D tablica komórek. Każde pole początkowo wypełniane jest obiektem <code>Pustka()</code>, a jego kolor zapisywany jest w macierzy <code>kolory_terenu</code> (White). Lista <code>strzaly</code> przechowuje pociski (np. ogień maga).
+
+<code>get_wolne_pola(x_start, y_start, size)</code> – zwraca losowo przemieszane współrzędne pól w zadanym obszarze kwadratowym o podanym rozmiarze.
+
+<code>dodaj_obiekty(type, liczba, pola)</code> – umieszcza określoną liczbę obiektów danego typu w losowych wolnych polach, korzystając z <code>FabrykaKomorek</code>.
+
+<code>get_wszystkie_wolne_pola()</code> – zwraca listę wszystkich wolnych pól na całej planszy (gdzie znajduje się <code>Pustka</code>).
+
+<code>policz_jednostki()</code> – liczy, ile jednostek każdego typu znajduje się na planszy (Elf, Ork, Goblin, People oraz ich wersje Super).
+
+<code>wyczysc_terytorium(kolor_do_usuniecia)</code> – usuwa wszystkie kolory terenu odpowiadające danej rasie, resetując je na <code>White</code>.<br>
+
+<code>usun_domy_po_ostatnim_junicie(kolor)</code> – usuwa wszystkie budynki (<code>Dom</code>, <code>Szpital</code>) związane z daną rasą, gdy zniknie jej ostatnia jednostka.<br>
+
+<code>get_szpital_area_coords(szpital_color)</code> – zwraca współrzędne początkowego szpitala w zależności od koloru rasy (np. zielony – lewy górny róg, żółty – prawy górny róg, czerwony – lewy dolny, niebieski – prawy dolny).</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Zębatka</h2>
+
+<pre><code class="style_code">
+def settings_menu():
+    global music_on
+    settings_running = True
+
+    #Rozmiary i pozycja okna
+    menu_width = 400
+    menu_height = 250
+    menu_x = (szerokosc - menu_width) // 2
+    menu_y = (wysokosc - menu_height) // 2
+    menu_rect = pygame.Rect(menu_x, menu_y, menu_width, menu_height)
+
+    music_button = pygame.Rect(menu_x + 100, menu_y + 80, 200, 50)
+    back_button = pygame.Rect(menu_x + 100, menu_y + 160, 200, 50)
+
+    while settings_running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if music_button.collidepoint(event.pos):
+                    music_on = not music_on
+                    if music_on:
+                        pygame.mixer.music.play(-1)
+                        pygame.mixer.music.set_volume(0.5)
+                    else:
+                        pygame.mixer.music.stop()
+                if back_button.collidepoint(event.pos):
+                    settings_running = False
+
+        pygame.draw.rect(okno, White, menu_rect, border_radius=10)
+        pygame.draw.rect(okno, Black, menu_rect, 3, border_radius=10)
+
+        title_text = font_menu.render("Settings", True, Black)
+        title_rect = title_text.get_rect(center=(menu_x + menu_width // 2, menu_y + 40))
+        okno.blit(title_text, title_rect)
+
+        music_text_display = "Music: On" if music_on else "Music: Off"
+        music_button_color = (0, 255, 0) if music_on else (255, 0, 0)
+        pygame.draw.rect(okno, music_button_color, music_button, border_radius=10)
+        pygame.draw.rect(okno, Black, music_button, 3, border_radius=10)
+        music_text_render = font.render(music_text_display, True, Black)
+        music_text_rect = music_text_render.get_rect(center=music_button.center)
+        okno.blit(music_text_render, music_text_rect)
+
+        pygame.draw.rect(okno, (0, 0, 255), back_button, border_radius=10)
+        pygame.draw.rect(okno, Black, back_button, 3, border_radius=10)
+        back_text_render = font.render("Back", True, Black)
+        back_text_rect = back_text_render.get_rect(center=back_button.center)
+        okno.blit(back_text_render, back_text_rect)
+
+        pygame.display.flip()
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p>Ta funkcja tworzy zębatkę, która znajduje się w prawym górnym rogu, za pomocą której można wyciszyć dźwięk. Przycisk <code>music_button</code> - służy do włączania i wyłączania muzyki. Przycisk <code>back_button</code> - powrót do głównego menu gry.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Główna funkcja i główna pętla gry</h2>
+
+<pre><code class="style_code">
+def zacznij_gre():
+    global plansza, kolory_terenu, strzaly, wybrany_unit, wybrany_szpital, god_mode, paused, selected_god_unit_type, selected_object_to_move, selected_object_original_pos, delete_mode
+
+    #Resetowanie stanu gry na początku
+    plansza = [[Pustka() for _ in range(rozmiar_okna_x)] for _ in range(rozmiar_okna_y)]
+    kolory_terenu = [[White for _ in range(rozmiar_okna_x)] for _ in range(rozmiar_okna_y)]
+    strzaly = []
+    wybrany_unit = None
+    wybrany_szpital = None
+    god_mode = False #Na początku gry tryb boga jest wyłączony
+    paused = False
+    selected_god_unit_type = None
+    selected_object_to_move = None
+    selected_object_original_pos = None
+    delete_mode = False
+    # Zapisujemy listę początkowych szpitali
+    starting_hospitals = []
+
+    startowa_area = {
+        "Elf": {"coords": (0, 0), "color": Green},
+        "Goblin": {"coords": (rozmiar_okna_x - pole_size, 0), "color": Yellow},
+        "Ork": {"coords": (0, rozmiar_okna_y - pole_size), "color": Red},
+        "People": {"coords": (rozmiar_okna_x - pole_size, rozmiar_okna_y - pole_size), "color": Blue}
+    }
+
+    poczatkowa_liczba_jednostek = {
+        "Elf": 10,
+        "Goblin": 20,
+        "Ork": 10,
+        "People": 10
+    }
+
+    for rasa, data in startowa_area.items():
+        x_start, y_start = data["coords"]
+        area_color = data["color"]
+
+        # Ustaw kolor terytorium
+        for y in range(y_start, y_start + pole_size):
+            for x in range(x_start, x_start + pole_size):
+                kolory_terenu[y][x] = area_color
+
+        # Dodaj jednostki
+        wolne_pola_rasy = get_wolne_pola(x_start, y_start, pole_size)
+        dodaj_obiekty(rasa, poczatkowa_liczba_jednostek[rasa], wolne_pola_rasy)
+
+        if rasa == "Elf" and wolne_pola_rasy:
+            x_super_elf, y_super_elf = random.choice(wolne_pola_rasy)
+            wolne_pola_rasy.remove((x_super_elf, y_super_elf))
+            plansza[y_super_elf][x_super_elf] = FabrykaKomorek.utworz_komorke("SuperElf")
+
+        if rasa == "Goblin" and wolne_pola_rasy:
+            x_super_goblin, y_super_goblin = random.choice(wolne_pola_rasy)
+            wolne_pola_rasy.remove((x_super_goblin, y_super_goblin))
+            plansza[y_super_goblin][x_super_goblin] = FabrykaKomorek.utworz_komorke("SuperGoblin")
+
+        if rasa == "Ork" and wolne_pola_rasy:
+            x_super_ork, y_super_ork = random.choice(wolne_pola_rasy)
+            wolne_pola_rasy.remove((x_super_ork, y_super_ork))
+            super_ork_instance = FabrykaKomorek.utworz_komorke("SuperOrk")
+            plansza[y_super_ork][x_super_ork] = super_ork_instance
+            super_ork_instance._update_position(x_super_ork, y_super_ork)
+
+        if rasa == "People" and wolne_pola_rasy:
+            x_super_mag, y_super_mag = random.choice(wolne_pola_rasy)
+            wolne_pola_rasy.remove((x_super_mag, y_super_mag))
+            super_mag_instance = FabrykaKomorek.utworz_komorke("SuperMag")
+            plansza[y_super_mag][x_super_mag] = super_mag_instance
+            super_mag_instance._update_position(x_super_mag, y_super_mag)
+
+        #Dodanie szpitala (jako początkowego)
+        if wolne_pola_rasy:
+            sx, sy = random.choice(wolne_pola_rasy)
+            wolne_pola_rasy.remove((sx, sy))
+            szpital = FabrykaKomorek.utworz_komorke("Szpital", is_starting_szpital=True)
+            szpital.kolor_rasy = area_color
+            plansza[sy][sx] = szpital
+            szpital._update_position(sx, sy)
+            starting_hospitals.append(szpital)
+
+    wolne_pola = get_wszystkie_wolne_pola()
+    dodaj_obiekty("Wood", 20, wolne_pola)
+    dodaj_obiekty("Stone", 20, wolne_pola)
+    dodaj_obiekty("Roslina", 20, wolne_pola)
+    dodaj_obiekty("Roslinozerca", 20, wolne_pola)
+
+    running = True
+    licznik_klatek = 0
+
+    if music_on:
+        if not pygame.mixer.music.get_busy():
+            pygame.mixer.music.play(-1)
+            pygame.mixer.music.set_volume(0.5)
+
+    while running:
+        clock.tick(30)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_g: #Przełączanie trybu boga
+                    god_mode = not god_mode
+                    selected_god_unit_type = None #Resetowanie wyboru jednostki po wyjściu z trybu boga
+                    selected_object_to_move = None
+                    selected_object_original_pos = None
+                    delete_mode = False
+                if event.key == pygame.K_p: #Przełączanie pauzy
+                    paused = not paused
+
+                if god_mode:
+                    if event.key == pygame.K_0:
+                        delete_mode = not delete_mode
+                        selected_god_unit_type = None
+                    elif event.key == pygame.K_1:
+                        selected_god_unit_type = "Elf"; delete_mode = False
+                    elif event.key == pygame.K_2:
+                        selected_god_unit_type = "Goblin"; delete_mode = False
+                    elif event.key == pygame.K_3:
+                        selected_god_unit_type = "Ork"; delete_mode = False
+                    elif event.key == pygame.K_4:
+                        selected_god_unit_type = "People"; delete_mode = False
+                    elif event.key == pygame.K_5:
+                        selected_god_unit_type = "SuperElf"; delete_mode = False
+                    elif event.key == pygame.K_6:
+                        selected_god_unit_type = "SuperGoblin"; delete_mode = False
+                    elif event.key == pygame.K_7:
+                        selected_god_unit_type = "SuperOrk"; delete_mode = False
+                    elif event.key == pygame.K_8:
+                        selected_god_unit_type = "SuperMag"; delete_mode = False
+                    elif event.key == pygame.K_9:
+                        selected_god_unit_type = "Szpital"; delete_mode = False
+                    else:
+                        selected_god_unit_type = None; delete_mode = False
+
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_x, mouse_y = event.pos
+                grid_x = mouse_x // rozmiar_komorki
+                grid_y = mouse_y // rozmiar_komorki
+                if 0 &lt;= grid_x &lt; rozmiar_okna_x and 0 &lt;= grid_y &lt; rozmiar_okna_y:
+                    organizm = plansza[grid_y][grid_x]
+
+                    if god_mode:
+                        if delete_mode:
+                            if isinstance(organizm, (
+                            Elf, Goblin, Ork, People, Super_elf, Super_goblin, Super_ork, Super_mag, Wood, Stone, Roslina, Roslinozerca, Dom, Szpital)):
+                                plansza[grid_y][grid_x] = Pustka()
+                                # Czyszczenie terenu, jeśli to nie jest zasób
+                                if not isinstance(organizm, (Wood, Stone, Roslina, Roslinozerca)):
+                                    kolory_terenu[grid_y][grid_x] = White
+
+                        if event.button == 1: #Lewy przycisk myszy służy do wyboru obiektu do przeniesienia
+                            if isinstance(organizm, (Elf, Goblin, Ork, People, Szpital, Super_elf, Super_goblin, Super_ork, Super_mag, Wood, Stone, Roslina, Roslinozerca, Dom)):
+                                selected_object_to_move = organizm
+                                selected_object_original_pos = (grid_x, grid_y)
+                            else:
+                                selected_object_to_move = None
+                                selected_object_original_pos = None
+
+                        elif event.button == 3: #Prawy przycisk myszy do dodawania jednostek lub przenoszenia
+                            if selected_object_to_move:
+                                if isinstance(plansza[grid_y][grid_x], Pustka): #Przenosimy tylko na puste pole
+                                    #Zapisujemy starą pozycję do wyczyszczenia
+                                    old_x, old_y = selected_object_original_pos
+                                    plansza[grid_y][grid_x] = selected_object_to_move
+                                    plansza[old_y][old_x] = Pustka() #Czyścimy starą pozycję
+
+                                    # aktualizacja pozycji dla Super_ork, Super_mag oraz Szpital
+                                    if isinstance(selected_object_to_move, (Super_ork, Super_mag, Szpital)):
+                                        selected_object_to_move._update_position(grid_x, grid_y)
+                                        #Jeśli szpital został przeniesiony, staje się "dynamiczny"
+                                        if isinstance(selected_object_to_move, Szpital):
+                                            selected_object_to_move.is_starting_szpital = False
+
+                                    # Aktualizacja koloru terytorium
+                                    kolor = kolor_terenu(selected_object_to_move)
+                                    if kolor:
+                                        kolory_terenu[grid_y][grid_x] = kolor
+                                    selected_object_to_move = None
+                                    selected_object_original_pos = None
+                            elif selected_god_unit_type:
+                                if isinstance(plansza[grid_y][grid_x], Pustka): # Dodajemy tylko na puste pole
+                                    if selected_god_unit_type == "Szpital":
+                                        current_territory_color = kolory_terenu[grid_y][grid_x] # Dla szpitala należy określić kolor rasy
+                                        if current_territory_color in class_colors.values():
+                                            new_szpital = FabrykaKomorek.utworz_komorke(selected_god_unit_type, is_starting_szpital=False)
+                                            new_szpital.kolor_rasy = current_territory_color
+                                            plansza[grid_y][grid_x] = new_szpital
+                                            new_szpital._update_position(grid_x, grid_y)
+                                            kolory_terenu[grid_y][grid_x] = current_territory_color# Upewnić się, że terytorium jest pokolorowane
+                                    else:
+                                        new_unit = FabrykaKomorek.utworz_komorke(selected_god_unit_type)
+                                        plansza[grid_y][grid_x] = new_unit
+                                        #Jeśli dodajemy jednostkę, zaktualizuj kolor terytorium, jeśli jest pusty
+                                        kolor = kolor_terenu(new_unit)
+                                        if kolor and kolory_terenu[grid_y][grid_x] == White:
+                                            kolory_terenu[grid_y][grid_x] = kolor
+                            else:
+                                if isinstance(organizm, (Elf, Goblin, Ork, People, Super_elf, Super_goblin, Super_ork, Super_mag)):
+                                    wybrany_unit = organizm
+                                    wybrany_szpital = None
+                                elif isinstance(organizm, Szpital):
+                                    wybrany_szpital = organizm
+                                    wybrany_unit = None
+                                else:
+                                    wybrany_unit = None
+                                    wybrany_szpital = None
+                    #Zwykła logika wyboru jednostek, jeśli tryb boga jest wyłączony
+                    else:
+                        if isinstance(organizm, (Elf, Goblin, Ork, People, Super_elf, Super_goblin, Super_ork, Super_mag)):
+                            wybrany_unit = organizm
+                            wybrany_szpital = None
+                        elif isinstance(organizm, Szpital):
+                            wybrany_szpital = organizm
+                            wybrany_unit = None
+                        else:
+                            wybrany_unit = None
+                            wybrany_szpital = None
+
+        okno.fill(White)
+
+        for y in range(rozmiar_okna_y):
+            for x in range(rozmiar_okna_x):
+                kolor = kolory_terenu[y][x]
+                pygame.draw.rect(okno, kolor, (x * rozmiar_komorki, y * rozmiar_komorki, rozmiar_komorki, rozmiar_komorki))
+
+                symbol = plansza[y][x].symbol()
+                if symbol:
+                    text = font.render(symbol, True, (0, 0, 0))
+                    text_rect = text.get_rect(center=(
+                        x * rozmiar_komorki + rozmiar_komorki // 2,
+                        y * rozmiar_komorki + rozmiar_komorki // 2))
+                    okno.blit(text, text_rect)
+
+        if isinstance(wybrany_szpital, Szpital):
+            if wybrany_szpital.is_starting_szpital:
+                #Początkowy szpital
+                szpital_x_start, szpital_y_start = get_szpital_area_coords(wybrany_szpital.kolor_rasy)
+                if szpital_x_start != -1 and szpital_y_start != -1:
+                    area_width = pole_size * rozmiar_komorki
+                    area_height = pole_size * rozmiar_komorki
+                    top_left_x = szpital_x_start * rozmiar_komorki
+                    top_left_y = szpital_y_start * rozmiar_komorki
+
+                    heal_surface_szpital = pygame.Surface((area_width, area_height), pygame.SRCALPHA)
+                    pygame.draw.rect(heal_surface_szpital, Kolor_szpital, heal_surface_szpital.get_rect())
+                    okno.blit(heal_surface_szpital, (top_left_x, top_left_y))
+            # To dynamiczny szpital
+            else:
+                if wybrany_szpital.x != -1 and wybrany_szpital.y != -1:
+                    szpital_x_on_grid = wybrany_szpital.x
+                    szpital_y_on_grid = wybrany_szpital.y
+                    heal_range_szpital = wybrany_szpital.heal_radius_dynamic
+                    area_width_szpital = (2 * heal_range_szpital + 1) * rozmiar_komorki
+                    area_height_szpital = (2 * heal_range_szpital + 1) * rozmiar_komorki
+                    top_left_x_szpital = (szpital_x_on_grid - heal_range_szpital) * rozmiar_komorki
+                    top_left_y_szpital = (szpital_y_on_grid - heal_range_szpital) * rozmiar_komorki
+
+                    heal_surface_szpital = pygame.Surface((area_width_szpital, area_height_szpital), pygame.SRCALPHA)
+                    pygame.draw.rect(heal_surface_szpital, Kolor_szpital, heal_surface_szpital.get_rect())
+                    okno.blit(heal_surface_szpital, (top_left_x_szpital, top_left_y_szpital))
+
+        # Podświetlenie wybranego obiektu w trybie boga
+        if god_mode and selected_object_to_move and selected_object_original_pos:
+            obszar_zaznaczenia = pygame.Rect(
+                selected_object_original_pos[0] * rozmiar_komorki,
+                selected_object_original_pos[1] * rozmiar_komorki, rozmiar_komorki, rozmiar_komorki
+            )
+            pygame.draw.rect(okno, (255, 0, 0), obszar_zaznaczenia, 3)
+
+        # Wyświetlanie obszaru, w którym jednostka zostanie dodana w trybie boga
+        if god_mode and selected_god_unit_type:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            grid_x = mouse_x // rozmiar_komorki
+            grid_y = mouse_y // rozmiar_komorki
+            if 0 &lt;= grid_x &lt; rozmiar_okna_x and 0 &lt;= grid_y &lt; rozmiar_okna_y:
+                obszar_wstawiania = pygame.Rect(grid_x * rozmiar_komorki, grid_y * rozmiar_komorki, rozmiar_komorki, rozmiar_komorki
+                )
+                pygame.draw.rect(okno, (0, 255, 0), obszar_wstawiania, 3)
+
+        # Wyświetlanie obszaru leczenia Super_orka
+        # Sprawdzamy, czy wybrana jednostka to Super_ork i czy jej współrzędne zostały zainicjalizowane
+        if isinstance(wybrany_unit, Super_ork) and wybrany_unit.current_x != -1 and wybrany_unit.current_y != -1:
+            super_ork_x = wybrany_unit.current_x
+            super_ork_y = wybrany_unit.current_y
+            heal_range = wybrany_unit.heal_range
+            #Obliczamy rozmiary obszaru leczenia
+            area_width = (2 * heal_range + 1) * rozmiar_komorki
+            area_height = (2 * heal_range + 1) * rozmiar_komorki
+            #Obliczamy rozmiary obszaru leczenia
+            top_left_x = (super_ork_x - heal_range) * rozmiar_komorki
+            top_left_y = (super_ork_y - heal_range) * rozmiar_komorki
+
+            heal_surface = pygame.Surface((area_width, area_height), pygame.SRCALPHA)
+            pygame.draw.rect(heal_surface, Kolor_szpital, heal_surface.get_rect())
+            okno.blit(heal_surface, (top_left_x, top_left_y))
+
+            # Wyświetlanie obszaru ataku Super_maga
+        if isinstance(wybrany_unit, Super_mag) and wybrany_unit.current_x != -1 and wybrany_unit.current_y != -1:
+            super_mag_x = wybrany_unit.current_x
+            super_mag_y = wybrany_unit.current_y
+            attack_range = wybrany_unit.zasieg
+            area_width = (2 * attack_range + 1) * rozmiar_komorki
+            area_height = (2 * attack_range + 1) * rozmiar_komorki
+            top_left_x = (super_mag_x - attack_range) * rozmiar_komorki
+            top_left_y = (super_mag_y - attack_range) * rozmiar_komorki
+
+            attack_surface = pygame.Surface((area_width, area_height), pygame.SRCALPHA)
+            pygame.draw.rect(attack_surface, (255, 0, 0, 80), attack_surface.get_rect())
+            okno.blit(attack_surface, (top_left_x, top_left_y))
+
+        if isinstance(wybrany_unit, Super_mag) and wybrany_unit.current_x != -1 and wybrany_unit.current_y != -1:
+            super_mag_x = wybrany_unit.current_x
+            super_mag_y = wybrany_unit.current_y
+            heal_range = wybrany_unit.heal_range
+            #Obliczamy rozmiary obszaru leczenia
+            area_width = (2 * heal_range + 1) * rozmiar_komorki
+            area_height = (2 * heal_range + 1) * rozmiar_komorki
+            #Obliczamy rozmiary obszaru leczenia
+            top_left_x = (super_mag_x - heal_range) * rozmiar_komorki
+            top_left_y = (super_mag_y - heal_range) * rozmiar_komorki
+
+            heal_surface = pygame.Surface((area_width, area_height), pygame.SRCALPHA)
+            pygame.draw.rect(heal_surface, Kolor_szpital, heal_surface.get_rect())
+            okno.blit(heal_surface, (top_left_x, top_left_y))
+
+        liczby = policz_jednostki()
+        if liczby["Elf"] == 0 and liczby["SuperElf"] == 0:
+            wyczysc_terytorium(Green)
+            usun_domy_po_ostatnim_junicie(Green)
+        if liczby["Goblin"] == 0 and liczby["SuperGoblin"] == 0:
+            wyczysc_terytorium(Yellow)
+            usun_domy_po_ostatnim_junicie(Yellow)
+        if liczby["Ork"] == 0 and liczby["SuperOrk"] == 0:
+            wyczysc_terytorium(Red)
+            usun_domy_po_ostatnim_junicie(Red)
+        if liczby["People"] == 0 and liczby["SuperMag"] == 0:
+            wyczysc_terytorium(Blue)
+            usun_domy_po_ostatnim_junicie(Blue)
+
+        tekst_statystyki = font_menu.render(f"Elf: {liczby['Elf'] + liczby['SuperElf']}  Goblin: {liczby['Goblin'] + liczby['SuperGoblin']}  Ork: {liczby['Ork'] + liczby['SuperOrk']}  People: {liczby['People'] + liczby['SuperMag']}", True, Black)
+        lokalizacja_tekstu =tekst_statystyki.get_rect(center=(szerokosc // 2, 30))
+        okno.blit(tekst_statystyki, lokalizacja_tekstu)
+
+        god_mode_text = font.render(f"God mode: {'ON' if god_mode else 'OFF'} (G)", True, 0, (255, 255, 255))
+        okno.blit(god_mode_text, (400, 50))
+        paused_text = font.render(f"Pause: {'YES' if paused else 'NO'} (P)", True, 0, (255, 255, 255))
+        okno.blit(paused_text, (600, 50))
+
+        if god_mode and selected_god_unit_type:
+            selected_unit_text = font.render(f"Dodaj: {selected_god_unit_type}", True, 0, (255, 255, 255))
+            okno.blit(selected_unit_text, (750, 50))
+
+        if god_mode and delete_mode:
+            delete_mode_text = font.render("Tryb usuwania", True, (255, 0, 0), (255, 255, 255))
+            okno.blit(delete_mode_text, (750, 50))
+
+        for strzala in strzaly[:]:
+            sx = strzala.x * rozmiar_komorki + rozmiar_komorki // 2
+            sy = strzala.y * rozmiar_komorki + rozmiar_komorki // 2
+            celx = strzala.cel_x * rozmiar_komorki + rozmiar_komorki // 2
+            cely = strzala.cel_y * rozmiar_komorki + rozmiar_komorki // 2
+
+            t = strzala.licznik / strzala.kroki
+            px = int(sx + (celx - sx) * t)
+            py = int(sy + (cely - sy) * t)
+
+            text = font.render(strzala.ikona, True, (0, 0, 0))
+            text_rect = text.get_rect(center=(px, py))
+            okno.blit(text, text_rect)
+
+            strzala.licznik += 1
+
+            if strzala.licznik >= strzala.kroki:
+                cel = plansza[strzala.cel_y][strzala.cel_x]
+                if isinstance(cel, Organizm) and strzala.strzelec.czy_wrog(cel):
+                    cel.zdrowie -= strzala.strzelec.moc
+                    if isinstance(strzala.strzelec, Super_elf) and random.random() &lt; 0.1:
+                        cel.zdrowie -= 40
+                    elif isinstance(strzala.strzelec, Super_mag) and random.random() &lt; 0.1:
+                        cel.zdrowie -= 30
+                    if cel.zdrowie &lt;= 0:
+                        if isinstance(cel, Super_ork):
+                            super_ork_dead.play()
+                        elif isinstance(cel, Super_goblin):
+                            super_goblin_death.play()
+                        plansza[strzala.cel_y][strzala.cel_x] = Pustka()
+                strzaly.remove(strzala)
+
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        grid_x = mouse_x // rozmiar_komorki
+        grid_y = mouse_y // rozmiar_komorki
+
+        if 0 &lt;= grid_x &lt; rozmiar_okna_x and 0 &lt;= grid_y &lt; rozmiar_okna_y:
+            organizm = plansza[grid_y][grid_x]
+            if isinstance(organizm, (Elf, Goblin, Ork, People, Szpital, Super_elf, Super_goblin, Super_ork, Super_mag)):
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+            else:
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
+        if wybrany_unit is not None:
+            #Sprawdzamy, czy wybrana jednostka nadal znajduje się na planszy w zaktualizowanej lokalizacji
+            znalezc_unit_na_plansze = False
+            for y_check in range(rozmiar_okna_y):
+                for x_check in range(rozmiar_okna_x):
+                    if plansza[y_check][x_check] is wybrany_unit:
+                        x_pos = x_check * rozmiar_komorki + rozmiar_komorki // 2
+                        y_pos = y_check * rozmiar_komorki + rozmiar_komorki // 2
+
+                        zdrowie_text = font.render(f&quot;❤️ {wybrany_unit.zdrowie} 💥 {wybrany_unit.moc}&quot;, True, (255, 0, 0))
+                        text_rect = zdrowie_text.get_rect(center&#61;(x_pos, y_pos - rozmiar_komorki))
+                        okno.blit(zdrowie_text, text_rect)
+                        znalezc_unit_na_plansze = True
+                        break
+                if znalezc_unit_na_plansze:
+                    break
+            if not znalezc_unit_na_plansze:
+                wybrany_unit = None
+
+        pygame.display.flip()
+
+        if not paused:
+            licznik_klatek += 1
+            if licznik_klatek % 30 =&#61; 0:
+                for y in range(rozmiar_okna_y):
+                    for x in range(rozmiar_okna_x):
+                        komorka = plansza[y][x]
+                        if isinstance(komorka, Szpital):
+                            rasa_szpitala = None
+                            for rasa_name, rasa_color in class_colors.items():
+                                if rasa_color =&#61; komorka.kolor_rasy:
+                                    rasa_szpitala = rasa_name
+                                    break
+
+                            if rasa_szpitala:
+                                if komorka.is_starting_szpital:
+                                    szpital_x_start, szpital_y_start = get_szpital_area_coords(komorka.kolor_rasy)
+                                    if szpital_x_start != -1 and szpital_y_start != -1:
+                                        for dy_heal in range(pole_size):  # range(6)
+                                            for dx_heal in range(pole_size):
+                                                px, py = szpital_x_start + dx_heal, szpital_y_start + dy_heal
+                                                if 0 &lt;= px &lt; rozmiar_okna_x and 0 &lt;= py &lt; rozmiar_okna_y:
+                                                    jednostka = plansza[py][px]
+                                                    if (isinstance(jednostka, (Elf, Super_elf)) and rasa_szpitala =&#61; &quot;Elf&quot;) or \
+                                                            (isinstance(jednostka, (Goblin, Super_goblin)) and rasa_szpitala =&#61; &quot;Goblin&quot;) or \
+                                                            (isinstance(jednostka, (Ork, Super_ork)) and rasa_szpitala =&#61; &quot;Ork&quot;) or \
+                                                            (isinstance(jednostka, (People, Super_mag)) and rasa_szpitala =&#61; &quot;People&quot;):
+                                                        if jednostka.zdrowie &lt; jednostka.max_zdrowie:
+                                                            jednostka.zdrowie = min(jednostka.zdrowie + 5, jednostka.max_zdrowie)
+                                #To dynamiczny szpital
+                                else:
+                                    szpital_x_center = x
+                                    szpital_y_center = y
+                                    heal_range_szpital = komorka.heal_radius_dynamic
+
+                                    for dy_heal in range(-heal_range_szpital, heal_range_szpital + 1):
+                                        for dx_heal in range(-heal_range_szpital, heal_range_szpital + 1):
+                                            px, py = szpital_x_center + dx_heal, szpital_y_center + dy_heal
+                                            if 0 &lt;= px &lt; rozmiar_okna_x and 0 &lt;= py &lt; rozmiar_okna_y:
+                                                jednostka = plansza[py][px]
+                                                if (isinstance(jednostka, (Elf, Super_elf)) and rasa_szpitala =&#61; &quot;Elf&quot;) or \
+                                                        (isinstance(jednostka, (Goblin, Super_goblin)) and rasa_szpitala =&#61; &quot;Goblin&quot;) or \
+                                                        (isinstance(jednostka, (Ork, Super_ork)) and rasa_szpitala =&#61; &quot;Ork&quot;) or \
+                                                        (isinstance(jednostka, (People, Super_mag)) and rasa_szpitala =&#61; &quot;People&quot;):
+                                                    if jednostka.zdrowie &lt; jednostka.max_zdrowie:
+                                                        jednostka.zdrowie = min(jednostka.zdrowie + 5, jednostka.max_zdrowie)
+
+                        # Logika leczenia dla Super-Orka i Super-Maga
+                        elif isinstance(komorka, (Super_ork, Super_mag)):
+                            komorka.leczenie_sojusznikow(x, y, plansza)
+
+                wspolrzedne = [(x, y) for y in range(rozmiar_okna_y) for x in range(rozmiar_okna_x)]
+                random.shuffle(wspolrzedne)
+                for x, y in wspolrzedne:
+                    organizm = plansza[y][x]
+                    if plansza[y][x] is organizm:
+                        if isinstance(organizm, (Elf, Goblin, Ork, People, Roslinozerca, Super_elf, Super_goblin, Super_ork, Super_mag)):
+                            # Przed ruchem zapisujemy starą pozycję, aby ją zaktualizować
+                            old_x, old_y = x, y
+                            organizm.ruch(x, y, plansza) #Jeśli organizm się przemieścił, jego stara komórka stała się Pustką, a nowa komórka zawiera teraz jego
+                            #Obsługa śmierci po ruchu/walce
+                            if organizm.zdrowie &lt;= 0:
+                                plansza[old_y][old_x] = Pustka() #Ustaw Pustkę na starej pozycji, jeśli jednostka zginęła przed ruchem
+                            if isinstance(organizm, (Elf, Goblin, Ork, People, Super_elf, Super_goblin, Super_ork, Super_mag)):
+                                organizm.buduj_dom(x, y, plansza, kolory_terenu)
+
+                #Rozmnażanie
+                for y in range(rozmiar_okna_y):
+                    for x in range(rozmiar_okna_x):
+                        organizm = plansza[y][x]
+
+                        if isinstance(organizm, (Elf, Goblin, Ork, People, Super_elf, Super_goblin, Super_ork, Super_mag)):
+                            if organizm.zasoby[&quot;plants&quot;] > 0 or organizm.zasoby["meat"] > 0:
+                                if isinstance(organizm, (Elf, Super_elf)): #Super Elf też może "rozmnażać" Elfy
+                                    kolor_terenu_jednostki = Green
+                                    typ = "Elf" #Super elf tworzy zwykłe Elfy
+                                elif isinstance(organizm, (Goblin, Super_goblin)):
+                                    kolor_terenu_jednostki = Yellow
+                                    typ = "Goblin"
+                                elif isinstance(organizm, (Ork, Super_ork)):
+                                    kolor_terenu_jednostki = Red
+                                    typ = "Ork"
+                                elif isinstance(organizm, (People, Super_mag)):
+                                    kolor_terenu_jednostki = Blue
+                                    typ = "People"
+                                else:
+                                    continue
+
+                                mozliwe_pola = [(ix, iy) for iy in range(rozmiar_okna_y)
+                                            for ix in range(rozmiar_okna_x)
+                                                if type(plansza[iy][ix]) == Pustka and kolory_terenu[iy][ix] == kolor_terenu_jednostki]
+
+                                if mozliwe_pola:
+                                    ix, iy = random.choice(mozliwe_pola)
+                                    plansza[iy][ix] = FabrykaKomorek.utworz_komorke(typ)
+                                    if organizm.zasoby["plants"] > 0:
+                                        organizm.zasoby["plants"] -= 1
+                                    elif organizm.zasoby["meat"] > 0:
+                                        organizm.zasoby["meat"] -= 1
+
+                #Dodawanie organizmów, gdy zabraknie zapasów
+                liczba_roslinozercow = sum(isinstance(plansza[y][x], Roslinozerca) for y in range(rozmiar_okna_y) for x in range(rozmiar_okna_x))
+                if liczba_roslinozercow &lt;= 5:
+                    wolne_pola = get_wszystkie_wolne_pola()
+                    dodaj_obiekty(&quot;Roslinozerca&quot;, 5, wolne_pola)
+
+                liczba_roslin = sum(isinstance(plansza[y][x], Roslina) for y in range(rozmiar_okna_y) for x in range(rozmiar_okna_x))
+                if liczba_roslin &lt;= 5:
+                    wolne_pola = get_wszystkie_wolne_pola()
+                    dodaj_obiekty("Roslina", 5, wolne_pola)
+
+                liczba_drewna = sum(isinstance(plansza[y][x], Wood) for y in range(rozmiar_okna_y) for x in range(rozmiar_okna_x))
+                if liczba_drewna &lt;= 10:
+                    wolne_pola = get_wszystkie_wolne_pola()
+                    dodaj_obiekty(&quot;Wood&quot;, 5, wolne_pola)
+
+                liczba_stone = sum(isinstance(plansza[y][x], Stone) for y in range(rozmiar_okna_y) for x in range(rozmiar_okna_x))
+                if liczba_stone &lt;= 10:
+                    wolne_pola = get_wszystkie_wolne_pola()
+                    dodaj_obiekty("Stone", 5, wolne_pola)
+
+    pygame.quit()
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p><b>Główne kroki funkcji:</b> Tworzona jest pusta plansza do gry (plansza) oraz macierz kolorów terytorium (kolory_terenu). Wszystkie zmienne stanu gry, takie jak <code>god_mode</code> (tryb boga), <code>paused</code> (pauza) i inne, są resetowane do wartości początkowych. Każda rasa otrzymuje swój początkowy obszar na planszy, który jest pokolorowany odpowiednim kolorem. W te obszary dodawana jest określona liczba jednostek każdej rasy oraz po jednej „super-jednostce” (SuperElf, SuperGoblin, SuperOrk, SuperMag). Dla każdej rasy w jej początkowej strefie tworzony jest startowy szpital (Szpital), który może leczyć sojusznicze jednostki. Na planszę dodawane są różne zasoby i zwierzęta: drewno (Wood), kamień (Stone), rośliny (Roslina) oraz roślinożercy (Roslinozerca).<br>
+
+Naciśnięcie klawisza G przełącza tryb boga. Naciśnięcie klawisza P przełącza pauzę. W trybie boga można: naciśnięciem 0 włączyć tryb usuwania; naciśnięciem 1–9 wybrać typ obiektu do dodania na planszę; kliknięciem prawym przyciskiem myszy dodać wybrany obiekt; kliknięciem lewym przyciskiem myszy wybrać obiekt do przesunięcia, a następnie prawym przyciskiem przenieść go na wolne pole.<br>
+
+<b>Wizualizacja:</b> Ekran jest czyszczony. Rysowana jest cała plansza z terytoriami i obiektami. Wyświetlane są informacje o liczbie jednostek każdej rasy oraz stanie trybu boga i pauzy. Jeśli wybrano szpital, super-orka lub super-maga, podświetlany jest promień ich działania. Wyświetlane są strzały <code>(strzaly)</code> od jednostek atakujących. Jeśli wybrano jednostkę, wyświetlane są jej zdrowie i siła.<br>  
+
+<b>Leczenie:</b> Co 30 klatek (1 sekunda) szpitale, super-orki i super-magi leczą sojusznicze jednostki w zasięgu swojego działania.<br>
+
+<b>Ruch i działania:</b> Każda jednostka na planszy wykonuje swoją akcję (ruch, atak, zbieranie zasobów itp.). Jednostki mogą również budować domy (Dom).<br>
+
+<b>Rozmnażanie:</b> Jednostki posiadające zasoby (plants lub meat) mogą tworzyć nowe jednostki swojej rasy na wolnych polach swojego terytorium.<br>
+
+<b>Uzupełnianie zasobów:</b> Jeśli liczba określonych obiektów (roślinożerców, roślin, drewna, kamienia) spadnie poniżej ustalonego progu, dodawane są nowe.<br>
+
+<b>Niszczenie terytorium:</b> Jeśli rasa nie posiada już żadnych jednostek, jej terytorium i domy są usuwane z planszy.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Wybór dyplomacji</h2>
+
+<pre><code class="style_code">
+def diplomacy_menu():
+    global allies, enemies, music_on
+
+    menu_running = True
+
+    if music_on:
+        if not pygame.mixer.music.get_busy():
+            pygame.mixer.music.play(-1)
+            pygame.mixer.music.set_volume(0.5)
+
+    while menu_running:
+        okno.blit(tlo, (0, 0))
+        title_text = font_menu.render("Wybierz Sojusze i Wrogów", True, Black)
+        title_rect = title_text.get_rect(center=(szerokosc // 2, 50))
+        okno.blit(title_text, title_rect)
+
+        gear_button = gear.get_rect(topright=(szerokosc - 20, 20))
+        okno.blit(gear, gear_button)
+
+        # Wybór sojuszników
+        ally_text = font_menu.render("Sojusznicy:", True, Black)
+        okno.blit(ally_text, (350, 120))
+        for i, cls in enumerate(classes):
+            button_rect = pygame.Rect(350, 170 + i * 50, 200, 40) #400 od lewej, 170 od góry, 50 w dół od przycisku, 200 to szerokość przycisku, 40 wysokość
+            color = (0,255,0) if cls in allies else Gray
+            pygame.draw.rect(okno, color, button_rect, border_radius=10)
+            pygame.draw.rect(okno, Black, button_rect, 2, border_radius=10)
+            class_text = font.render(cls, True, Black)
+            class_text_rect = class_text.get_rect(center=button_rect.center)
+            okno.blit(class_text, class_text_rect)
+
+        # Wybór wrogów
+        enemy_text = font_menu.render("Wrogowie:", True, Black)
+        okno.blit(enemy_text, (700, 120))
+        for i, cls in enumerate(classes):
+            button_rect = pygame.Rect(700, 170 + i * 50, 200, 40)
+            color = (255,0,0) if cls in enemies else Gray
+            pygame.draw.rect(okno, color, button_rect, border_radius=10)
+            pygame.draw.rect(okno, Black, button_rect, 2, border_radius=10)
+            class_text = font.render(cls, True, Black)
+            class_text_rect = class_text.get_rect(center=button_rect.center)
+            okno.blit(class_text, class_text_rect)
+
+        # Przycisk "Rozpocznij grę"
+        start_button_rect = pygame.Rect(szerokosc // 2 - 100, wysokosc - 300, 200, 50)
+        pygame.draw.rect(okno, (255,0,0), start_button_rect, border_radius=15)
+        pygame.draw.rect(okno, Black, start_button_rect, 2, border_radius=15)
+        start_text = font_menu.render("Start", True, Black)
+        start_text_rect = start_text.get_rect(center=start_button_rect.center)
+        okno.blit(start_text, start_text_rect)
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
+                # Obsługa przycisku "Settings"
+                if gear_button.collidepoint(mouse_pos):
+                    settings_menu()
+
+                # Obsługa kliknięć przycisków sojuszników
+                for i, cls in enumerate(classes):
+                    button_rect = pygame.Rect(350, 170 + i * 50, 200, 40)
+                    if button_rect.collidepoint(mouse_pos):
+                        if cls in allies:
+                            allies.remove(cls)
+                        else:
+                            allies.add(cls)
+                        # Upewnij się, że nie może być jednocześnie sojusznikiem i wrogiem
+                        if cls in enemies:
+                            enemies.remove(cls)
+
+                # Obsługa kliknięć przycisków wrogów
+                for i, cls in enumerate(classes):
+                    button_rect = pygame.Rect(700, 170 + i * 50, 200, 40)
+                    if button_rect.collidepoint(mouse_pos):
+                        if cls in enemies:
+                            enemies.remove(cls)
+                        else:
+                            enemies.add(cls)
+                        # Upewnij się, że nie może być jednocześnie sojusznikiem i wrogiem
+                        if cls in allies:
+                            allies.remove(cls)
+
+                # Obsługa przycisku "Rozpocznij grę"
+                if start_button_rect.collidepoint(mouse_pos):
+                    menu_running = False
+</code></pre>
+
+<div class="button_container">
+<div class="toggle_button">
+<button onclick="toggleCode(this)" class="button-link" style="background-color: #66ccff; color: black; border: none; border-radius: 15px; padding: 15px 25px; font-weight: bold; cursor: pointer;">Pokaż więcej</button>
+</div>
+</div>
+
+<div class="square_container">
+<div class="square">
+
+<p>Funkcja <code>diplomacy_menu()</code> na początku sprawdza, czy muzyka jest włączona, jeśli tak – uruchamiany jest podkładowy utwór. Ogólnie ta funkcja odpowiada za wybór sojuszników i wrogów przed grą, interfejs z przyciskami i kolorowym podświetleniem, wbudowaną weryfikację (jedna rasa nie może być jednocześnie sojusznikiem i wrogiem), a także daje możliwość przejścia do ustawień lub bezpośredniego rozpoczęcia gry.</p>
+
+</div>
+</div>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<h2 class="headers">Uruchomienie gry</h2>
+
+<pre><code class="style_code">
+# Uruchomienie najpierw menu dyplomacji a potem grę
+diplomacy_menu()
+zacznij_gre()
+</code></pre>
+
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<script>
+function toggleCode(button) {
+const code = button.closest('.button_container').previousElementSibling.querySelector('.style_code');
+code.classList.toggle('expanded');
+button.textContent = code.classList.contains('expanded') ? 'Ukryj' : 'Pokaż więcej';
+}
+</script>
+
+<h2 class="headers" id="projekt_kon_sym"><b>Pełny kod "Zhoska bitwa"</b></h2>
+
+<div class="button_container">
+<a href="zhoska_bitwa.py" target="_blank" rel="noopener noreferrer" class="button-link" download="zhoska_bitwa.py"><b>Pobierz</b></a>
+</div>
+
+<h1 class="headers">Projekty:</h1>
+
+<div class="button_container">
+
+<a href="gra_w_zycie.html" target="_blank" rel="noopener noreferrer" class="button-link"><b>Gra w życie</b></a>
+
+<a href="symulacja_ekosystemy.html" target="_blank" rel="noopener noreferrer" class="button-link"><b>Symulacja ekosystemy</b></a>
+</div>
+
+</main>
+
+<script>
+  const nav = document.querySelector('.nav1');
+  const toggleButton = document.getElementById('toggleNav');
+
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  function checkMobileMenu() {
+    if (isMobile()) {
+      toggleButton.classList.remove('hidden');
+      nav.classList.add('hidden');
+    } else {
+      toggleButton.classList.add('hidden');
+      nav.classList.remove('hidden');
+      nav.classList.remove('active');
+    }
+  }
+
+  toggleButton.addEventListener('click', () => {
+    nav.classList.toggle('active');
+  });
+
+  window.addEventListener('resize', checkMobileMenu);
+  window.addEventListener('load', checkMobileMenu);
+</script>
+
+<footer style="text-align:center; padding:20px; margin-top:50px; color:gray;">
+  © 2025 Vladyslav Dovhopiatyi. Wszelkie prawa zastrzeżone.
+</footer>
+
+</body>
+</html>
