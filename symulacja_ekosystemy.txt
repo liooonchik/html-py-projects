@@ -304,6 +304,7 @@ width: 100%;
 <a href="index.html">Python: co to?</a>
 <a href="gra_w_zycie.html">Gra w życie</a>
 <a href="symulacja_ekosystemy.html">Symulacja ekosystemy</a>
+<a href="zhoska_bitwa.html">Zhoska bitwa</a>
 <a href="omnie.html">O mnie</a>
 
 </nav>
@@ -361,7 +362,7 @@ from PyQt5.QtCore import Qt, QTimer
 
 <b style="color:#e65c00">import</b> <b>csv</b> &mdash; Importuje standardowy moduł Pythona <b>csv</b>, który umożliwia odczyt i zapis danych w formacie często używanym do przechowywania tabelarycznych danych.<br>
 
-<b style="color:#e65c00">import</b> <b>matplotlib.pyplot as plt</b> &mdash; Importuje moduł <b>pyplot</b> z biblioteki <b>matplotlib</b> i nadaje mu alias <b>plt</b>. Umożliwia tworzenie wykresów, diagramów i wizualizacji danych.
+<b style="color:#e65c00">import</b> <b>matplotlib.pyplot as plt</b> &mdash; Importuje moduł <b>pyplot</b> z biblioteki <b>matplotlib</b> i nadaje mu alias <b>plt</b>. Umożliwia tworzenie wykresów, diagramów i wizualizacji danych.</p>
 
 </div>
 </div>
@@ -1223,6 +1224,8 @@ button.textContent = code.classList.contains('expanded') ? 'Ukryj' : 'Pokaż wi�
 <div class="button_container">
 
 <a href="gra_w_zycie.html" target="_blank" rel="noopener noreferrer" class="button-link"><b>Gra w życie</b></a>
+
+<a href="zhoska_bitwa.html" target="_blank" rel="noopener noreferrer" class="button-link"><b>Zhoska bitwa</b></a>
 </div>
 
 </main>
@@ -1257,7 +1260,6 @@ button.textContent = code.classList.contains('expanded') ? 'Ukryj' : 'Pokaż wi�
 <footer style="text-align:center; padding:20px; margin-top:50px; color:gray;">
   © 2025 Vladyslav Dovhopiatyi. Wszelkie prawa zastrzeżone.
 </footer>
-
 
 </body>
 </html>
