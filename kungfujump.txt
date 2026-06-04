@@ -4,9 +4,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <meta name="keywords" content="projects, Python, Java, Kotlin, Game of Life, ecosystem, simulations, programming, Vladyslav Dovhopiatyi">
-<meta name="description" content="Discover 'Zhoska bitwa'">
+<meta name="description" content="Discover 'Kung Fu Jump💻'">
 <meta name="author" content="Vladyslav Dovhopiatyi">
-<title>Zhoska bitwa - Python</title>
+<title>Kung Fu Jump - Java</title>
 <link rel="icon" type="image/jpg" href="favi.jpg">
 
 <style>
@@ -488,145 +488,59 @@ padding: 10px;
 
 <script src="wyszukiwarka_script.js"></script>
 
-<h1>🐍Zhoska bitwa🐍</h1>
-    
+<h1>☕Kung Fu Jump☕</h1>
+
 <div class="image-container">
-<img src="zhoska_bitwa1.png" alt="Zhoska bitwa" class="img_zhoska_bitwa">
+<img src="kungfujump1.png" alt="Kung Fu Jump" class="img_zhoska_bitwa">
 </div>
 <div class="image-container">
-<img src="zhoska_bitwa2.png" alt="Zhoska bitwa" class="img_zhoska_bitwa">
+<img src="kungfujump2.png" alt="Kung Fu Jump" class="img_zhoska_bitwa">
 </div>
 <div class="image-container">
-<img src="zhoska_bitwa3.png" alt="Zhoska bitwa" class="img_zhoska_bitwa">
+<img src="kungfujump3.png" alt="Kung Fu Jump" class="img_zhoska_bitwa">
 </div>
 <div class="image-container">
-<img src="zhoska_bitwa4.png" alt="Zhoska bitwa" class="img_zhoska_bitwa">
+<img src="kungfujump4.png" alt="Kung Fu Jump" class="img_zhoska_bitwa">
+</div>
+<div class="image-container">
+<img src="kungfujump5.png" alt="Kung Fu Jump" class="img_zhoska_bitwa">
+</div>
+<div class="image-container">
+<img src="kungfujump6.png" alt="Kung Fu Jump" class="img_zhoska_bitwa">
 </div>
 
 <div class="square_container">
 
 <div class="square spoken-lang">
-<p>At the start, a 1250x750 game is created. In the menu, you can choose two teams of enemies or allies, or play free-for-all.</p>
+<p>This is my first Java project. At the beginning, I wanted to create a 2D runner, taking examples from games such as Mario and Red Ball 4.</p>
 </div>
 
 <div class="square">
-<p>At the start, 4 teams are created: Elves (green), Goblins (yellow), Orcs (red) and Humans (blue). Each has a super king.</p>
+<p>The main idea of the game is to collect coins and dodge the dangers that lie ahead for the hero.</p>
 </div>
 
 <div class="square spoken-lang">
-<p>The map contains trees, stones, plants, animals, houses, and hospitals. If their count drops to 5 or 10, new ones spawn.</p>
+<p>The gameplay is divided into levels (there are only 2 in the Java version), where the dangers change depending on the country (except for the first one) in which the player finds themselves.</p>
 </div>
 
 <div class="square">
-<p>When a team's last citizen dies, the team's color, houses, and hospital disappear. Clicking an object shows its HP and damage.</p>
+<p>The game implements basic classes for building a 2D runner world: such as spikes, coins, decorations, enemies, swords and a portal to the next level.</p>
+</div>
+
+<div class="square">
+<p>The first version of the game was written in Java for PC, where you can see the basic mechanics and the first gameplay screenshots.</p>
 </div>
 
 <div class="square spoken-lang">
-<p>You can pause the game (P) and activate GOD MODE with the G key. The same key deactivates this mode.</p>
+<p>There is also an expanded and larger-scale version of the game created for Android smartphones, written in Kotlin + Java.</p>
 </div>
 
-<div class="square">
-<p>In God Mode, you can move units or spawn them using the 1-9 keys. The 0 key removes any unit.</p>
-</div>
-
-<div class="square spoken-lang">
-<p>Each team can build houses if they have the required resources: 3 trees🌳 and 1 stone⛰️</p>
-</div>
-
-<div class="square">
-<p>Each team can reproduce if they consume a plant🌾 or an animal🐔🐇🐑🐄🐷.</p>
-</div>
-</div>
-
-<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
-
-<div class="square_container">
-
-<div class="square" style="background-color: #b3ffb3; box-shadow: 8px 8px 0px #388e3c; border: 2px solid #2e7d32;">
-<div class="lang-icon">🧝‍♂️</div>
-<h3>Elf</h3>
-<div>
-<span>❤️ 50</span>
-<span>⚔️ 5</span>
-</div>
-<p>Shoot arrows from a bow up to a distance of 5 tiles.</p>
-</div>
-
-<div class="square" style="background-color: #99ff99; box-shadow: 8px 8px 0px #00c853; border: 2px solid #00a142;">
-<div class="lang-icon">🏹</div>
-<h3>Super Elf</h3>
-<div>
-<span>❤️ 200</span>
-<span>⚔️ 20</span>
-</div>
-<p>The Elf King, has an increased shooting range of up to 10 tiles.</p>
-</div>
-
-<div class="square" style="background-color: #ffed4d; box-shadow: 8px 8px 0px #f57c00; border: 2px solid #e65100;">
-<div class="lang-icon">👺</div>
-<h3>Goblin</h3>
-<div>
-<span>❤️ 30</span>
-<span>⚔️ 10</span>
-</div>
-<p>Have a low health pool, but come in large numbers.</p>
-</div>
-
-<div class="square" style="background-color: #ffeb33; box-shadow: 8px 8px 0px #f57c00; border: 2px solid #e65100;">
-<div class="lang-icon">👹</div>
-<h3>Super Goblin</h3>
-<div>
-<span>❤️ 200</span>
-<span>⚔️ 30</span>
-</div>
-<p>Spawns 50 goblins when health drops to 150hp, 100hp, and 50hp.</p>
-</div>
-
-<div class="square" style="background-color: #ffcccc; box-shadow: 8px 8px 0px #c62828; border: 2px solid #b71c1c;">
-<div class="lang-icon">🧟‍♂️</div>
-<h3>Orc</h3>
-<div>
-<span>❤️ 70</span>
-<span>⚔️ 15</span>
-</div>
-<p>Have a large health pool and are very strong in close combat.</p>
-</div>
-
-<div class="square" style="background-color: #ffb3b3; box-shadow: 8px 8px 0px #c62828; border: 2px solid #b71c1c;">
-<div class="lang-icon">🪓</div>
-<h3>Super Orc</h3>
-<div>
-<span>❤️ 250</span>
-<span>⚔️ 25</span>
-</div>
-<p>Strong, has a lot of health, and heals allied orcs within a 4-tile radius for +5❤️.</p>
-</div>
-
-<div class="square" style="background-color: #b3b3ff; box-shadow: 8px 8px 0px #1a237e; border: 2px solid #0d47a1;">
-<div class="lang-icon">🧑</div>
-<h3>Human</h3>
-<div>
-<span>❤️ 50</span>
-<span>⚔️ 10</span>
-</div>
-<p>A balanced basic unit tasked with protecting the mage.</p>
-</div>
-
-<div class="square" style="background-color: #9999ff; box-shadow: 8px 8px 0px #1a237e; border: 2px solid #0d47a1;">
-<div class="lang-icon">🧙‍♂️</div>
-<h3>Super Mage</h3>
-<div>
-<span>❤️ 180</span>
-<span>⚔️ 30</span>
-</div>
-<p>The icing on the cake! Heals humans for +5❤️ within a 4-tile radius and shoots fire up to 5 tiles.</p>
-</div>
 </div>
 
 <p style="font-size: 250%; color:#cc0000; animation: bounce 1.5s infinite;"><b>&#x2B07; &#x2B07; &#x2B07;</b></p>
 
 <div class="button_container">
-<a href="https://github.com/liooonchik/portfolio-website/releases/download/game/zhoska_bitwa.rar" download="Ekosystem.exe" class="button-link"><b>Zhoska bitwa (.rar)</b></a>
+<a href="https://github.com/liooonchik/portfolio-website/releases/download/game/Kung.Fu.Jump1.rar" download="Ekosystem.exe" class="button-link"><b>Kung Fu Jump (.rar)</b></a>
 </div>
 
 <hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
@@ -641,7 +555,7 @@ padding: 10px;
 
 <a href="symulacja_ekosystemy.html" target="_self" rel="noopener noreferrer" class="button-link"><b>Ecosystem simulation</b></a>
 
-<a href="kungfujump.html" target="_self" rel="noopener noreferrer" class="button-link"><b>Kung Fu Jump💻</b></a>
+<a href="zhoska_bitwa.html" target="_self" rel="noopener noreferrer" class="button-link"><b>Zhoska bitwa</b></a>
 
 <a href="kungfujump1.html" target="_self" rel="noopener noreferrer" class="button-link"><b>Kung Fu Jump📱</b></a>
 </div>

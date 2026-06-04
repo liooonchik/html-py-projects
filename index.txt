@@ -3,14 +3,11 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<meta name="keywords" content="projekty, Python, Java, Gra w życie, ekosystem, symulacje, programowanie, Vladyslav Dovhopiatyi">
-<meta name="description" content="Zobacz moje pierwsze projekty stworzone w Pythonie">
+<meta name="keywords" content="projects, Python, Java, Kotlin, Game of Life, ecosystem, simulations, programming, Vladyslav Dovhopiatyi">
+<meta name="description" content="View my projects">
 <meta name="author" content="Vladyslav Dovhopiatyi">
-<meta name="google-site-verification" content="mVUkFlTjVz-cgxurbw1cmlZvZCjYUl8SM6e6-qoO0_E" />
-  <meta name="google-site-verification" content="mVUkFlTjVz-cgxurbw1cmlZvZCjYUl8SM6e6-qoO0_E" />
-<title>Python: co to?</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="icon" type="image/png" href="favicon.png">
+<title>My projects</title>
+<link rel="icon" type="image/jpg" href="favi.jpg">
 
 <style>
 
@@ -86,10 +83,45 @@ display: block;
 padding: 20px 20px;
 text-decoration: none;
 color: black;
+font-weight: bold;
 }
 
 .nav1 a:hover {
 background-color: hsl(280, 100%, 70%)
+}
+
+.nav1 details summary {
+display: list-item;
+padding: 20px 20px 20px 20px; 
+color: black;
+cursor: pointer;
+font-weight: bold;
+outline: none;
+font-size: 16px;
+}
+
+.nav1 details summary:hover {
+background-color: hsl(280, 100%, 70%);
+}
+
+.nav1 details summary::marker {
+color: #0040ff;
+font-size: 1.2em;
+}
+
+.nav1 details summary::-webkit-details-marker {
+color: #0040ff;
+font-size: 1.2em;
+}
+
+.dropdown-content {
+padding-left: 15px;
+background-color: rgb(0, 140, 220); 
+}
+
+.dropdown-content a {
+padding: 15px 20px;
+font-size: 0.95em;
 }
 
 h1 {
@@ -104,35 +136,69 @@ font-size: 120%;
 line-height: 1.6;
 }
 
+@keyframes bounce {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(10px); }
+}
+/* SQUARE */
 .square_container {
 display: flex;
 flex-wrap: wrap;
 justify-content: center;
 margin-left: 25%;
 width: 75%;
-gap: 20px;
-margin-top: 30px;
+gap: 25px;
+margin-top: 20px;
+padding: 20px;
 }
 
 .square {
 background-color: #99ccff;
-border-radius: 15px;
-padding: 20px;
-width: 300px;
-box-shadow: 10px 10px 1px #ccccff;
-transition: transform 0.5s;
+border-radius: 20px;
+padding: 25px;
+width: 220px;
+min-height: 220px; 
+box-shadow: 8px 8px 0px #ccccff;
+transition: transform 0.4s, box-shadow 0.4s;
 display: flex;
+flex-direction: column;
 align-items: center;
-min-height: 200px; 
+justify-content: center;
+text-align: center;
+cursor: pointer;
 }
 
 .square:hover {
-transform: scale(1.10);
+transform: translateY(-10px) scale(1.05);
+box-shadow: 12px 12px 0px #b3b3ff;
+}
+
+.square .lang-icon {
+font-size: 45px;
+margin-bottom: 15px;
+}
+
+.square.spoken-lang {
+background-color: #ccffcc;
+box-shadow: 8px 8px 0px #b3ffb3;
+}
+
+.square.spoken-lang:hover {
+box-shadow: 12px 12px 0px #99ff99;
+}
+
+.square h3 {
+font-size: 22px;
+color: #1a1a1a;
+margin-bottom: 8px;
 }
 
 .square p {
-text-align: center;
-margin: 0;
+margin-left: 0;
+width: 100%;
+font-size: 120%;
+line-height: 1.3;
+color: #333;
 }
 
 .button_container {
@@ -213,6 +279,138 @@ width: 100%;
 padding: 10px;
 }
 }
+/* GAME OF LIFE CSS */
+.game-section-container {
+margin-left: 25%;
+width: 75%;
+padding: 20px;
+margin-top: 20px;
+}
+
+.canvas-wrapper {
+display: flex;
+justify-content: center;
+margin-top: 20px;
+}
+
+#gameCanvas {
+border: 2px solid #0040ff;
+border-radius: 20px; 
+box-shadow: 8px 8px 0px #ccccff;
+background-color: #ffffff;
+max-width: 100%;
+height: auto;
+cursor: pointer;
+}
+
+@media (max-width: 768px) {
+.game-section-container {
+margin-left: 0;
+width: 100%;
+padding: 10px;
+}
+}
+/* Ecosystem Simulation CSS */
+
+.ecosystem-game {
+    margin-left: 20%; 
+    padding: 20px;
+}
+
+.ecosystem-game #generation-label {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.ecosystem-game .main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.ecosystem-game .grid-wrapper {
+    overflow-x: auto; 
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+}
+
+.ecosystem-game #grid-container {
+    display: grid;
+    grid-template-columns: repeat(30, 18px); 
+    grid-template-rows: repeat(30, 18px);
+    gap: 1px;
+    background-color: #ccc;
+    border: 2px solid #333;
+}
+
+.ecosystem-game .cell {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px; 
+    user-select: none;
+}
+
+.ecosystem-game .charts-container {
+    display: flex;
+    flex-direction: row; 
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.ecosystem-game .chart-box {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    flex: 1;
+    min-width: 280px;
+    max-width: 450px; 
+}
+
+.ecosystem-game canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+
+@media (max-width: 768px) {
+    .ecosystem-game {
+        margin-left: 0; 
+        padding: 10px;
+    }
+
+    .ecosystem-game .main-container {
+        gap: 20px;
+    }
+
+    .ecosystem-game .grid-wrapper {
+        justify-content: flex-start; 
+    }
+
+    .ecosystem-game .charts-container {
+        flex-direction: column; 
+        align-items: center;
+    }
+    
+    .ecosystem-game .chart-box {
+        width: 100%;
+        max-width: 100%;
+    }
+}
 
 </style>
 
@@ -228,64 +426,128 @@ padding: 10px;
 </a>
 
 <div class="szukaj-container">
-<input id="google_search" type="text" name="search" placeholder="Wyszukiwarka projektów" autocomplete="off" oninput="obsługa_wyszukiwarki()" aria-label="Wyszukiwarka projektów">
+<input id="google_search" type="text" name="search" placeholder="Search" autocomplete="off" oninput="obsługa_wyszukiwarki()" aria-label="Wyszukiwarka projektów">
 <div id="autocomplete-list" class="autocomplete-items" style="max-width: 250px; margin-top: 5px;"></div>
 </div>
 
 </header>
 
 <nav class="nav1">
-<a href="index.html">Python: co to?</a>
-<a href="gra_w_zycie.html">Gra w życie</a>
-<a href="symulacja_ekosystemy.html">Symulacja ekosystemy</a>
-<a href="zhoska_bitwa.html">Zhoska bitwa</a>
-<a href="omnie.html">O mnie</a>
+<a href="index.html">Home</a>
 
+<details class="dropdown">
+<summary>Python</summary>
+<div class="dropdown-content">
+<a href="gra_w_zycie.html">Game of Life</a>
+<a href="symulacja_ekosystemy.html">Ecosystem simulation</a>
+<a href="zhoska_bitwa.html">Zhoska bitwa</a>
+</div>
+</details>
+
+<details class="dropdown">
+<summary>Java</summary>
+<div class="dropdown-content">
+<a href="kungfujump.html">Kung Fu Jump</a>
+</div>
+</details>
+
+<details class="dropdown">
+<summary>Kotlin</summary>
+<div class="dropdown-content">
+<a href="kungfujump1.html">Kung Fu Jump</a>
+</div>
+</details>
+
+<a href="omnie.html">About me</a>
 </nav>
 
 <main>
 
 <script src="wyszukiwarka_script.js"></script>
 
-<h1>&#128013;Python&#128013;</h1>
+<h1>What do I know?</h1>
 
 <div class="square_container">
 
 <div class="square">
-<p>Python to jeden z najpopularniejszych języków programowania na świecie. Dokładną liczbę osób piszących w Pythonie trudno określić, ale jest to bardzo popularny język, używany przez wielu programistów. Według niektórych ankiet Python zajmuje pierwsze lub drugie miejsce pod względem popularności wśród języków programowania.
-</p>
+<div class="lang-icon">🐍</div>
+<h3>Python</h3>
+<p>Intermediate</p>
 </div>
 
 <div class="square">
-<p>Bardzo często wybierany jest jako pierwszy język do nauki – zarówno w szkołach, jak i na uczelniach. To nie przypadek – składnia Pythona jest prosta i przejrzysta, dzięki czemu nie wymaga dużej wiedzy początkowej ani doświadczenia</p>
+<div class="lang-icon">☕</div>
+<h3>Java</h3>
+<p>Intermediate</p>
 </div>
 
 <div class="square">
-<p>To język, od którego warto zacząć swoją przygodę z IT. Otwiera drzwi do świata programowania i znacznie ułatwia naukę innych języków, ponieważ wiele zasad, terminów i podejść jest wspólnych lub bardzo podobnych</p>
+<div class="lang-icon">🅺</div>
+<h3>Kotlin</h3>
+<p>Advanced</p>
 </div>
 
 <div class="square">
-<p>Python posiada ogromną społeczność oraz mnóstwo darmowych zasobów edukacyjnych – tutoriali, kursów i dokumentacji. Dzięki temu nauka jest łatwiejsza, a problemy programistyczne można rozwiązać szybciej z pomocą innych.</p>
+<div class="lang-icon">C#</div>
+<h3>C#</h3>
+<p>Beginner</p>
 </div>
 
 <div class="square">
-  <p>Sam wybrałem Pythona jako swój pierwszy język programowania i nie żałuję tej decyzji. Dzięki niemu udało mi się szybko zacząć pisać działające programy i zrozumieć podstawy informatyki.</p>
+<div class="lang-icon">C++</div>
+<h3>C++</h3>
+<p>Pre-intermediate</p>
 </div>
 
 <div class="square">
-<p>Na tej stronie chciałbym podzielić się moimi pierwszymi (i nie tylko) projektami stworzonymi w Pythonie. Zobaczymy, jak działa kod, co się za nim kryje i jak z każdym nowym zadaniem można stawać się lepszym programistą</p>
+<div class="lang-icon">JS</div>
+<h3>JavaScript</h3>
+<p>Pre-intermediate</p>
 </div>
 
 </div>
 
-<h1>Projekty:</h1>
+<hr style="border: none; height: 10px; background-color: #cc00cc; margin: 20px 0;">
+
+<div class="square_container">
+
+<div class="square spoken-lang">
+<div class="lang-icon">🇺🇦</div>
+<h3>Ukrainian</h3>
+<p>Native</p>
+</div>
+
+<div class="square spoken-lang">
+<div class="lang-icon">🇵🇱</div>
+<h3>Polish</h3>
+<p>Upper-Intermediate (B2)</p>
+</div>
+
+<div class="square spoken-lang">
+<div class="lang-icon">🇬🇧</div>
+<h3>English</h3>
+<p>Intermediate (B1)</p>
+</div>
+
+<div class="square spoken-lang">
+<div class="lang-icon">🇷🇺</div>
+<h3>Russian</h3>
+<p>Proficiency (C2)</p>
+</div>
+</div>
+
+<h1>Projects:</h1>
 
 <div class="button_container">
-<a href="gra_w_zycie.html" target="_blank" rel="noopener noreferrer" class="button-link"><b>Gra w życie</b></a>
+<a href="gra_w_zycie.html" target="_self" rel="noopener noreferrer" class="button-link"><b>Game of Life</b></a>
 
-<a href="symulacja_ekosystemy.html" target="_blank" rel="noopener noreferrer" class="button-link"><b>Symulacja ekosystemy</b></a>
+<a href="symulacja_ekosystemy.html" target="_self" rel="noopener noreferrer" class="button-link"><b>Ecosystem simulation</b></a>
 
-<a href="zhoska_bitwa.html" target="_blank" rel="noopener noreferrer" class="button-link"><b>Zhoska bitwa</b></a>
+<a href="zhoska_bitwa.html" target="_self" rel="noopener noreferrer" class="button-link"><b>Zhoska bitwa</b></a>
+
+<a href="kungfujump.html" target="_self" rel="noopener noreferrer" class="button-link"><b>Kung Fu Jump💻</b></a>
+
+<a href="kungfujump1.html" target="_self" rel="noopener noreferrer" class="button-link"><b>Kung Fu Jump📱</b></a>
 </div>
 
 </main>
@@ -318,7 +580,7 @@ padding: 10px;
 </script>
 
 <footer style="text-align:center; padding:20px; margin-top:50px; color:gray;">
-  © 2025 Vladyslav Dovhopiatyi. Wszelkie prawa zastrzeżone.
+  © 2025 Vladyslav Dovhopiatyi. All rights reserved.
 </footer>
 
 </body>
