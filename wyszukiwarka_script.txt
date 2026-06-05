@@ -16,13 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const staticSuggestions = [
-    { name: "Ecosystem simulation", url: "symulacja_ekosystemy.html" },
-    { name: "Game of Life", url: "gra_w_zycie.html" },
-    { name: "Home", url: "index.html" },
+    { name: "Symulacja ekosystemy", url: "symulacja_ekosystemy.html" },
+    { name: "Gra w życie", url: "gra_w_zycie.html" },
+    { name: "Python: co to?", url: "index.html" },
     { name: "Zhoska bitwa", url: "zhoska_bitwa.html" },
-    { name: "About me", url: "omnie.html" },
-    { name: "Kung Fu Jump💻", url: "kungfujump.html" },
-    { name: "Kung Fu Jump📱", url: "kungfujump1.html" }
+    { name: "O mnie", url: "omnie.html" }
   ];
 
   const headingSuggestions = Array.from(document.querySelectorAll("h2")).map(el => ({
